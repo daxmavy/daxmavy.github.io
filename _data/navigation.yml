@@ -9,8 +9,8 @@ main:
   - title: "Posts"
     url: /year-archive/
 
-  - title: "Hello"
-    url: /hello/
+  - title: "Hot takes"
+    url: /takes/
 
   - title: "Teaching"
     url: /teaching/    

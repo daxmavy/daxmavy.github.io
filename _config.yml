@@ -176,16 +176,19 @@ kramdown:
 # Collections
 collections:
   teaching:
-    output: true
+    output: false
     permalink: /:collection/:path/
   publications:
-    output: true
+    output: false
     permalink: /:collection/:path/
   portfolio:
+    output: false
+    permalink: /:collection/:path/
+  takes:
     output: true
     permalink: /:collection/:path/
   talks:
-    output: true
+    output: false
     permalink: /:collection/:path/
 
 
@@ -202,6 +205,16 @@ defaults:
       comments: true
       share: true
       related: true
+  # _takes
+  - scope:
+      path: ""
+      type: takes
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
   # _pages
   - scope:
       path: ""
