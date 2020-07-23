@@ -1,0 +1,10 @@
+---
+layout: archive
+title: "Book (and other) reviews"
+permalink: /books/
+author_profile: true
+---
+
+{% for post in site.books reversed %}
+  {% include archive-single-talk.html %}
+{% endfor %}

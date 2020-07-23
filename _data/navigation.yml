@@ -6,17 +6,23 @@ main:
   #- title: "Talks"
   #  url: /talks/    
   
-  - title: "Posts"
-    url: /year-archive/
+  #- title: "Posts"
+  #  url: /year-archive/
 
   - title: "Hot takes"
     url: /takes/
 
-  - title: "Teaching"
-    url: /teaching/    
+  - title: "Book reviews"
+    url: /books/
+
+  - title: "Things I've learned"
+    url: /excited/
+
+  #- title: "Teaching"
+  #  url: /teaching/    
     
   - title: "CV"
-    url: /cv/
+    url: /files/MaxDavyResume2Pages.pdf
     
   #- title: "Guide"
   #  url: /markdown/
