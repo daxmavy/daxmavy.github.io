@@ -9,10 +9,8 @@ redirect_from:
 ---
 I'm Max. I'm interested in too many things.
 -----
-I work as a Behavioural Scientist at CBA and previously (also at CBA) as an Associate Data Scientist. I'm also an Honours student in Applied Mathematics at the University of Sydney.
+I work as a Behavioural Scientist at CBA and previously (also at CBA) as an Associate Data Scientist. I'm also an Honours student in Applied Mathematics at the University of Sydney. So far as I can tell, the more I learn, the more I realise how little I know, and the more I realise how much there is to find. This is a worrying trend, as it would be thoroughly unsatisfying if it continues for another 50 years. 
 
-Website
------
 In this website, you may find:
 
 - hot takes
@@ -23,26 +21,35 @@ In this website, you may find:
 This website exists for three reasons:
 - a project to learn git, Jekyll, and linux OS / development environment
 - a place to refine the rants that I otherwise keep imposing on various passers-by
-- an opportunity to try to reverse the damage done to my writing skills by 4 years of studying maths
+- an opportunity to reverse the damage done to my writing skills by 4 years of studying maths
 
 This is still very much under construction!
 
 More about me
 -------
-The more I learn about 
+An important proviso for the below: I'm more than wary of the [Dunning-Kruger effect](https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger_effect) (or the far scarier [alternative](https://xkcd.com/1531/)). Where below I say 'a fair bit about' or 'just a little about', substitute 'next to nothing', and 'nothing', respectively.
 
 Some areas that I know a fair bit about and find cool:
-- Machine learning
+- Machine learning and data science
 - Algorithm / mechanism design
-- Maths, especially 
+- Maths, especially:
+  - optimisation
+  - probability theory
+  - mathematical computing
+  - topology
 - Ethics in AI
 
 Some areas that I know just a little about and find cool:
+- Computational social science
+- Natural language processing
 - Software engineering
 - 'Big Data' workflows
 - Microeconometrics / causal inference
 - Development economics
 - Behavioural science and economics
+- Linguistics
+- Historiography
+- Effective altruism
 
 Some areas I know very little about and find cool:
 - Writing 
