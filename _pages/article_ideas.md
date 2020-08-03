@@ -23,7 +23,11 @@ Books:
 - power (noam chomsky)
 - why we sleep
 - white tiger
+- what money can't buy
 
 Takes:
 - intelligence as a form of privilege
 - ethical AI in business
+- apparatus of empiricism in business
+- meaning in mathematics
+- purpose of technical mathematics (probability theory)
