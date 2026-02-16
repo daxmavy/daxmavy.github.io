@@ -5,20 +5,39 @@
 
 set -e
 
-# Configuration
-BUTTONDOWN_API_KEY="your-api-key-here"
-SITE_URL="https://daxmavy.github.io"
+# Get script directory
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Check if API key is set
-if [ "$BUTTONDOWN_API_KEY" = "your-api-key-here" ]; then
-    osascript -e 'display dialog "Please edit send-newsletter.sh and add your Buttondown API key!" buttons {"OK"} default button "OK" with icon stop'
+# Load environment variables from .env
+if [ -f "$SCRIPT_DIR/.env" ]; then
+    export $(cat "$SCRIPT_DIR/.env" | grep -v '^#' | xargs)
+else
+    osascript -e 'display dialog "Error: .env file not found!\n\nPlease copy .env.example to .env and add your Buttondown API key." buttons {"OK"} default button "OK" with icon stop'
+    echo "Error: .env file not found. Please copy .env.example to .env and add your API key."
     exit 1
 fi
 
-# Get latest blog posts (last 3)
+# Check if API key is set
+if [ -z "$BUTTONDOWN_API_KEY" ] || [ "$BUTTONDOWN_API_KEY" = "your_api_key_here" ]; then
+    osascript -e 'display dialog "Please add your Buttondown API key to the .env file!" buttons {"OK"} default button "OK" with icon stop'
+    exit 1
+fi
+
+# Configuration
+SITE_URL="https://daxmavy.github.io"
+
+# Get latest blog posts (last 3, excluding drafts)
 echo "Finding recent blog posts..."
 RECENT_POSTS=$(find content/blog/posts -name "*.md" -not -name "_index.md" |
+    while read -r post; do
+        # Check if draft
+        if grep -q "^draft: true" "$post" 2>/dev/null; then
+            continue
+        fi
+        echo "$post"
+    done |
     grep -v "ethical-ai" |
+    sort -r |
     head -n 3)
 
 # Build post list
