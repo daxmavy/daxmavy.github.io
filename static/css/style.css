@@ -146,6 +146,7 @@ a:hover {
   justify-content: center;
   transition: all 0.3s ease;
   padding: 0;
+  position: relative;
 }
 
 .theme-toggle:hover {
@@ -157,6 +158,39 @@ a:hover {
   width: 20px;
   height: 20px;
   fill: var(--color-text);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: absolute;
+}
+
+/* Show sun icon in dark mode (to switch to light) */
+[data-theme="dark"] .moon-icon {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+[data-theme="dark"] .sun-icon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+/* Show moon icon in light mode (to switch to dark) */
+[data-theme="light"] .sun-icon {
+  opacity: 0;
+  transform: rotate(-180deg);
+}
+
+[data-theme="light"] .moon-icon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+/* Default state (before JS loads) - show sun */
+:root:not([data-theme]) .moon-icon {
+  opacity: 0;
+}
+
+:root:not([data-theme]) .sun-icon {
+  opacity: 1;
 }
 
 /* Social Links */
