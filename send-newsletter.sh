@@ -95,11 +95,11 @@ RESPONSE=$(curl -s -X POST https://api.buttondown.email/v1/emails \
   }")
 
 # Check response
-if echo "$RESPONSE" | grep -q "\"id\""; then
-    osascript -e 'display dialog "✓ Newsletter sent successfully!" buttons {"OK"} default button "OK"'
+if echo "$RESPONSE" | grep -q '"id"'; then
+    osascript -e 'display dialog "Newsletter sent successfully!" buttons {"OK"} default button "OK"'
     echo "Success! Newsletter sent."
 else
     echo "Error: $RESPONSE"
-    osascript -e "display dialog \"Error sending newsletter. Check terminal for details.\" buttons {\"OK\"} default button \"OK\" with icon stop"
+    osascript -e 'display dialog "Error sending newsletter. Check terminal for details." buttons {"OK"} default button "OK" with icon stop'
     exit 1
 fi
