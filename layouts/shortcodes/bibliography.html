@@ -3,27 +3,73 @@
 
 <section class="bibliography">
   <h2>References</h2>
-  <ol class="references">
+  <div class="publications">
     {{- range $key, $entry := $bib -}}
-    <li id="ref-{{ $key }}" class="reference-item">
-      <span class="reference-authors">{{ $entry.author }}</span>
-      ({{ $entry.year }}).
-      <span class="reference-title">{{ $entry.title }}</span>.
-      {{- if $entry.journal -}}
-        <em>{{ $entry.journal }}</em>
-        {{- if $entry.volume -}}, {{ $entry.volume }}{{ end -}}
-        {{- if $entry.issue -}}({{ $entry.issue }}){{ end -}}
-        {{- if $entry.pages -}}, {{ $entry.pages }}{{ end -}}.
+    <div class="publication-item">
+      <div class="pub-title">{{ $entry.title }}</div>
+      <div class="pub-authors">{{ $entry.author }}</div>
+      <div class="pub-venue">
+        {{- if $entry.journal -}}
+          <em>{{ $entry.journal }}</em>
+          {{- if $entry.volume -}}, Vol. {{ $entry.volume }}{{ end -}}
+          {{- if $entry.issue -}}({{ $entry.issue }}){{ end -}}
+          {{- if $entry.pages -}}, pp. {{ $entry.pages }}{{ end -}}
+        {{- end -}}
+        {{- if $entry.publisher -}}
+          {{ $entry.publisher }}
+        {{- end -}}
+        {{- if $entry.year -}}, {{ $entry.year }}{{ end -}}
+      </div>
+
+      <div class="pub-links">
+        {{- if $entry.doi -}}
+          <a href="https://doi.org/{{ $entry.doi }}" target="_blank">DOI</a>
+        {{- end -}}
+        {{- if $entry.url -}}
+          <a href="{{ $entry.url }}" target="_blank">URL</a>
+        {{- end -}}
+        {{- if $entry.pdf -}}
+          <a href="{{ $entry.pdf }}" target="_blank">PDF</a>
+        {{- end -}}
+        {{- if $entry.abstract -}}
+          <button class="abstract-toggle" data-target="abstract-{{ $key }}" aria-expanded="false">
+            Show Abstract
+          </button>
+        {{- end -}}
+      </div>
+
+      {{- if $entry.abstract -}}
+      <div id="abstract-{{ $key }}" class="publication-abstract">
+        {{ $entry.abstract }}
+      </div>
       {{- end -}}
-      {{- if $entry.publisher -}}
-        {{ $entry.publisher }}.
-      {{- end -}}
-      {{- if $entry.doi -}}
-        <a href="https://doi.org/{{ $entry.doi }}" target="_blank">https://doi.org/{{ $entry.doi }}</a>
-      {{- else if $entry.url -}}
-        <a href="{{ $entry.url }}" target="_blank">{{ $entry.url }}</a>
-      {{- end -}}
-    </li>
+    </div>
     {{- end -}}
-  </ol>
+  </div>
 </section>
+
+<script>
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleButtons = document.querySelectorAll('.abstract-toggle');
+
+    toggleButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const abstract = document.getElementById(targetId);
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+        if (isExpanded) {
+          abstract.classList.remove('show');
+          this.setAttribute('aria-expanded', 'false');
+          this.textContent = 'Show Abstract';
+        } else {
+          abstract.classList.add('show');
+          this.setAttribute('aria-expanded', 'true');
+          this.textContent = 'Hide Abstract';
+        }
+      });
+    });
+  });
+})();
+</script>

@@ -6,6 +6,13 @@
   {{ partial "meta.html" . }}
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
   <link rel="stylesheet" href="/css/style.css">
+  <script>
+    // Prevent flash of wrong theme - default to dark mode
+    (function() {
+      const theme = localStorage.getItem('theme-preference') || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
 <body>
   {{ partial "header.html" . }}
@@ -13,6 +20,7 @@
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}
+  <script src="/js/theme-toggle.js"></script>
   <script src="/js/footnotes.js"></script>
   <script src="/js/citations.js"></script>
 </body>

@@ -1,8 +1,36 @@
 {{ define "main" }}
+
+{{ if .Params.image }}
+<section class="profile-section">
+  <img src="{{ .Params.image }}" alt="{{ .Site.Params.author }}" class="profile-image">
+  <div class="profile-content">
+    <h1>{{ .Site.Params.author }}</h1>
+    {{ with .Params.affiliation }}
+    <p class="affiliation">{{ . }}</p>
+    {{ end }}
+    {{ .Content }}
+  </div>
+</section>
+{{ else }}
 <section class="intro">
   <h1>{{ .Site.Title }}</h1>
   {{ .Content }}
 </section>
+{{ end }}
+
+{{ with .Params.news }}
+<section class="news-section">
+  <h2>Recent Updates</h2>
+  <ul class="news-list">
+    {{ range first 5 . }}
+    <li class="news-item">
+      <span class="news-date">{{ .date }}</span>
+      <span class="news-text">{{ .text | markdownify }}</span>
+    </li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}
 
 <nav class="main-nav">
   <h2>Explore</h2>
