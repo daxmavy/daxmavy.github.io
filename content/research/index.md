@@ -11,7 +11,7 @@ research_interests: |
   I have a long-term goal of providing technical expertise to improve the design of regulation.
 
 current_projects:
-  - title: "How do LLM marginalise or prefer certain political perspectives when summarising documents?"
+  - title: "How do LLMs marginalise or prefer certain political perspectives when summarising documents?"
     date: "ongoing"
     abstract: "LLMs are increasingly used both for 'neutral' infrastructure (such as summarisation tools for journalists) and [by individuals pondering political decision-making](https://doi.org/10.48550/arXiv.2509.05219). Political bias in LLMs is therefore highly consequential, and there has been a flurry of research into this area by both frontier labs and academics. One important and unstudied area is the bias of LLMs when processing documents - which they regularly do when summarising web search results or when pulling from databases. My thesis intends to explore this area, investigating possible causes for bias to be exacerbated or moderated when LLMs are used to summarise documents. With [Paul Röttger](https://paulrottger.com/) (Oxford Internet Institute)."
     link: ""

@@ -17,4 +17,4 @@ Hi, I'm Max! I'm a reformed mathematician, and enjoy thinking about the relation
 
 Currently, I'm studying a MSc in Social Data Science at the Oxford Internet Institute. My thesis explores the marginalisation of minority political perspectives by LLMs.
 
-Browse my [research](/research/) for publications and new research ideas, read my [blog](/blog/) for hot takes and other writing, or learn more [about me](/bio/).
+Browse my [research](/research/) for my research interests, publications, ongoing projects and speculative research ideas, read my [blog](/blog/) for hot takes and other writing, or learn more [about me](/bio/).

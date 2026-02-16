@@ -1,7 +1,7 @@
 ---
 title: "Welcome to My Blog"
 date: 2026-02-16
-draft: false
+draft: true
 description: "An introduction to this blog and demonstration of its features"
 tags: ["meta", "introduction"]
 ---
