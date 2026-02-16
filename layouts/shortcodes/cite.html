@@ -1,0 +1,12 @@
+{{- $key := .Get 0 -}}
+{{- $page := .Get 1 -}}
+{{- $bib := index .Site.Data.bibliography $key -}}
+{{- if $bib -}}
+<span class="citation">
+  <a href="#ref-{{ $key }}" class="citation-link" data-citation="{{ $key }}" title="{{ $bib.title }}">
+    ({{ $bib.author }}, {{ $bib.year }}{{ if $page }}, {{ $page }}{{ end }})
+  </a>
+</span>
+{{- else -}}
+<span class="citation-missing">[{{ $key }}?]</span>
+{{- end -}}

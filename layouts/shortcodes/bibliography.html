@@ -1,0 +1,29 @@
+{{- $filter := .Get 0 -}}
+{{- $bib := .Site.Data.bibliography -}}
+
+<section class="bibliography">
+  <h2>References</h2>
+  <ol class="references">
+    {{- range $key, $entry := $bib -}}
+    <li id="ref-{{ $key }}" class="reference-item">
+      <span class="reference-authors">{{ $entry.author }}</span>
+      ({{ $entry.year }}).
+      <span class="reference-title">{{ $entry.title }}</span>.
+      {{- if $entry.journal -}}
+        <em>{{ $entry.journal }}</em>
+        {{- if $entry.volume -}}, {{ $entry.volume }}{{ end -}}
+        {{- if $entry.issue -}}({{ $entry.issue }}){{ end -}}
+        {{- if $entry.pages -}}, {{ $entry.pages }}{{ end -}}.
+      {{- end -}}
+      {{- if $entry.publisher -}}
+        {{ $entry.publisher }}.
+      {{- end -}}
+      {{- if $entry.doi -}}
+        <a href="https://doi.org/{{ $entry.doi }}" target="_blank">https://doi.org/{{ $entry.doi }}</a>
+      {{- else if $entry.url -}}
+        <a href="{{ $entry.url }}" target="_blank">{{ $entry.url }}</a>
+      {{- end -}}
+    </li>
+    {{- end -}}
+  </ol>
+</section>

@@ -1,0 +1,31 @@
+{{ define "main" }}
+<section class="intro">
+  <h1>{{ .Site.Title }}</h1>
+  {{ .Content }}
+</section>
+
+<nav class="main-nav">
+  <h2>Explore</h2>
+  <ul>
+    <li><a href="/blog/" class="button">Blog</a></li>
+    <li><a href="/research/" class="button">Research</a></li>
+    <li><a href="/bio/" class="button">Bio</a></li>
+  </ul>
+</nav>
+
+{{ $recentPosts := where .Site.RegularPages "Section" "blog" | first 3 }}
+{{ if $recentPosts }}
+<section class="recent-posts">
+  <h2>Recent Posts</h2>
+  {{ range $recentPosts }}
+  <article class="post-item">
+    <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+  </article>
+  {{ end }}
+  <a href="/blog/" class="button">View all posts →</a>
+</section>
+{{ end }}
+
+{{ partial "newsletter.html" . }}
+{{ end }}

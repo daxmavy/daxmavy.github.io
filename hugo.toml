@@ -1,0 +1,17 @@
+baseURL = 'https://example.github.io/'
+languageCode = 'en-us'
+title = 'Your Name - Research & Writing'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.footnote]
+        enable = true
+        backlinkHTML = '↩︎'
+
+[pagination]
+  pagerSize = 10
+
+[params]
+  description = "Personal academic website and research blog"
+  author = "Your Name"

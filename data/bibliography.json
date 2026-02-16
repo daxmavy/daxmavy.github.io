@@ -1,0 +1,19 @@
+{
+  "smith2020": {
+    "author": "Smith, J.",
+    "year": "2020",
+    "title": "An Introduction to Academic Writing",
+    "journal": "Journal of Academic Studies",
+    "volume": "15",
+    "issue": "2",
+    "pages": "123-145",
+    "doi": "10.1234/jas.2020.15.2.123"
+  },
+  "jones2021": {
+    "author": "Jones, A. & Brown, B.",
+    "year": "2021",
+    "title": "Research Methods in Social Sciences",
+    "publisher": "Academic Press",
+    "url": "https://example.com/jones2021"
+  }
+}
