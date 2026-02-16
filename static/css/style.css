@@ -52,8 +52,8 @@
 
 /* Typography */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  font-size: 18px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 16px;
   line-height: 1.7;
   color: var(--color-text);
   background: var(--color-bg);
@@ -162,29 +162,29 @@ a:hover {
   position: absolute;
 }
 
-/* Show sun icon in dark mode (to switch to light) */
-[data-theme="dark"] .moon-icon {
+/* Show moon icon in dark mode (represents current state) */
+[data-theme="dark"] .sun-icon {
   opacity: 0;
   transform: rotate(180deg);
 }
 
-[data-theme="dark"] .sun-icon {
+[data-theme="dark"] .moon-icon {
   opacity: 1;
   transform: rotate(0deg);
 }
 
-/* Show moon icon in light mode (to switch to dark) */
-[data-theme="light"] .sun-icon {
+/* Show sun icon in light mode (represents current state) */
+[data-theme="light"] .moon-icon {
   opacity: 0;
   transform: rotate(-180deg);
 }
 
-[data-theme="light"] .moon-icon {
+[data-theme="light"] .sun-icon {
   opacity: 1;
   transform: rotate(0deg);
 }
 
-/* Default state (before JS loads) - show sun */
+/* Default state (before JS loads) - show moon for dark default */
 :root:not([data-theme]) .moon-icon {
   opacity: 0;
 }
@@ -719,5 +719,162 @@ th {
 
   .social-links {
     justify-content: center;
+  }
+
+  .research-item-title {
+    font-size: 1rem;
+  }
+
+  .research-item-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
+
+/* Research Page Styles */
+.research-page {
+  max-width: 900px;
+}
+
+.research-section {
+  margin-bottom: 4rem;
+}
+
+.research-section h2 {
+  color: var(--color-primary);
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.research-interests {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  margin-bottom: 3rem;
+}
+
+.research-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.research-item {
+  padding: 1.25rem;
+  background: var(--color-accent-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.research-item.collapsible .research-item-header.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.research-item:hover {
+  box-shadow: 0 2px 8px var(--shadow-color);
+  border-color: var(--color-secondary);
+}
+
+.research-item-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.research-item-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.research-item-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.research-item-title a {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  border-bottom: none;
+}
+
+.research-item-title a:hover {
+  color: var(--color-secondary);
+}
+
+.research-item-title a::after {
+  content: " ↗";
+  font-size: 0.85em;
+  color: var(--color-secondary);
+  opacity: 0.7;
+}
+
+.expand-icon {
+  font-size: 1.5rem;
+  color: var(--color-secondary);
+  font-weight: 300;
+  line-height: 1;
+  min-width: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.research-item-meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.research-item-date {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.research-item-venue {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.research-item-abstract {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin: 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+  margin-top: 0.75rem;
+}
+
+.research-item-abstract.collapsed {
+  display: none;
+}
+
+.research-item-abstract.expanded {
+  display: block;
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

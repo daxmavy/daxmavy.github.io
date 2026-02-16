@@ -1,6 +1,6 @@
 baseURL = 'https://daxmavy.github.io/'
 languageCode = 'en-us'
-title = 'Max Davy - Research & Writing'
+title = 'Max Davy'
 
 [markup]
   [markup.goldmark]
