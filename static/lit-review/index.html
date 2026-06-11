@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Normative Definitions of Political Bias in LLMs</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --ink:#1a1a1a; --muted:#5c6470; --line:#e3e6ea; --bg:#fbfbfa; --card:#ffffff;
+    --accentA:#7b4fb0; --accentB:#2f6f6a; --accentC:#b8473d; --accentD:#2a5d9c;
+    --accentE:#3f8a3f; --accentF:#c2790f; --accentG:#9c2a6e; --accentH:#555f6b; --accentM:#444;
+    --chip:#f0f1f3; --rowhi:#f7f8f9;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.5; font-size:15.5px;}
+  .wrap{max-width:1200px; margin:0 auto; padding:0 22px 90px}
+  header.top{padding:46px 22px 26px; max-width:1200px; margin:0 auto; border-bottom:1px solid var(--line)}
+  header.top h1{font-size:29px; line-height:1.2; margin:0 0 10px; letter-spacing:-.01em}
+  header.top p{color:var(--muted); margin:6px 0; font-size:14.5px}
+  .scope{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:15px 18px; margin:20px 0 0; font-size:14px}
+  .scope b{color:var(--ink)}
+
+  /* notation key */
+  .notation{margin:22px 0 0; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden}
+  .notation h2{margin:0; padding:13px 18px; font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); border-bottom:1px solid var(--line); background:#f4f5f6}
+  table.key{width:100%; border-collapse:collapse; font-size:13.5px}
+  table.key td{padding:8px 18px; border-bottom:1px solid var(--line); vertical-align:top}
+  table.key tr:last-child td{border-bottom:none}
+  table.key td.sym{width:200px; white-space:nowrap}
+  table.key tr:nth-child(even){background:var(--rowhi)}
+
+  nav.toc{margin:24px 0 8px; padding:16px 20px; background:var(--card); border:1px solid var(--line); border-radius:12px}
+  nav.toc h2{margin:0 0 11px; font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted)}
+  nav.toc ol{margin:0; padding-left:0; list-style:none; columns:2; column-gap:34px}
+  nav.toc li{margin:5px 0; break-inside:avoid; font-size:14px}
+  nav.toc a{color:var(--ink); text-decoration:none}
+  nav.toc a:hover{text-decoration:underline}
+  nav.toc .tag{display:inline-block; width:24px; height:24px; line-height:24px; text-align:center; border-radius:6px; color:#fff; font-weight:700; font-size:12px; margin-right:9px; vertical-align:middle}
+
+  section.fam{margin:44px 0 0; scroll-margin-top:14px}
+  .famhead{display:flex; align-items:flex-start; gap:13px}
+  .badge{flex:0 0 auto; width:36px; height:36px; line-height:36px; text-align:center; border-radius:9px; color:#fff; font-weight:800; font-size:17px; margin-top:2px}
+  .famhead h2{margin:0; font-size:21px; letter-spacing:-.01em}
+  .famhead .sub{color:var(--muted); font-size:14px; margin:3px 0 0}
+
+  .def{border-left:4px solid var(--accentA); background:var(--card); border-radius:0 12px 12px 0; padding:13px 20px 8px; margin:16px 0 12px;
+    border-top:1px solid var(--line); border-right:1px solid var(--line); border-bottom:1px solid var(--line); overflow-x:auto}
+  .def .lbl{font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:2px}
+  .def .where{font-size:13px; color:var(--muted); margin:6px 0 2px}
+  .def .where b{color:var(--ink); font-weight:600}
+
+  /* instantiation tables */
+  .tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px; margin:4px 0 0}
+  table.inst{width:100%; border-collapse:collapse; font-size:13px; background:var(--card); min-width:760px}
+  table.inst thead th{position:sticky; top:0; background:#f4f5f6; text-align:left; padding:10px 12px; font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); border-bottom:1px solid var(--line); vertical-align:bottom}
+  table.inst td{padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+  table.inst tbody tr:nth-child(even){background:var(--rowhi)}
+  table.inst tbody tr:last-child td{border-bottom:none}
+  td.paper{min-width:210px}
+  td.paper a{color:var(--ink); text-decoration:none; font-weight:600; border-bottom:1px solid transparent}
+  td.paper a:hover{border-bottom-color:var(--ink)}
+  td.paper .cite{display:block; color:var(--muted); font-weight:400; font-size:12px; margin-top:2px}
+  td.val{min-width:150px}
+  td.metric{min-width:170px}
+  .pdf{display:inline-block; font-size:11px; text-decoration:none; color:#fff; background:var(--accentD); padding:2px 8px; border-radius:999px; font-weight:600; margin-top:5px}
+  .pdf.alt{background:var(--accentH)}
+  .pdf:hover{filter:brightness(1.08)}
+  .new{display:inline-block; font-size:9.5px; font-weight:800; color:#fff; background:#16a34a; padding:1px 6px; border-radius:999px; margin-left:6px; vertical-align:middle; letter-spacing:.03em}
+  .sf{display:inline-block; font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:5px; color:#fff}
+
+  /* per-family accents */
+  #famA .badge,#famA .def{border-left-color:var(--accentA)} #famA .badge{background:var(--accentA)}
+  #famB .badge{background:var(--accentB)} #famB .def{border-left-color:var(--accentB)}
+  #famC .badge{background:var(--accentC)} #famC .def{border-left-color:var(--accentC)}
+  #famD .badge{background:var(--accentD)} #famD .def{border-left-color:var(--accentD)}
+  #famE .badge{background:var(--accentE)} #famE .def{border-left-color:var(--accentE)}
+  #famF .badge{background:var(--accentF)} #famF .def{border-left-color:var(--accentF)}
+  #famG .badge{background:var(--accentG)} #famG .def{border-left-color:var(--accentG)}
+  #famH .badge{background:var(--accentH)} #famH .def{border-left-color:var(--accentH)}
+  #famM .badge{background:var(--accentM)} #famM .def{border-left-color:var(--accentM)}
+
+  .callout{background:#fff8ec; border:1px solid #f0dcae; border-radius:12px; padding:13px 18px; margin:16px 0 0; font-size:14px}
+  .callout b{color:#8a5a00}
+  footer{margin-top:50px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:12.5px}
+  footer code{background:var(--chip); padding:1px 6px; border-radius:5px; font-size:12px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Normative Definitions of Political Bias in Large Language Models</h1>
+  <p>What each study treats as the <em>unbiased</em> reference point — a general bias functional per family, with every paper instantiating its variables.</p>
+  <p style="font-size:13px">Compiled June 2026 · ~60 works verified against arXiv / ACL Anthology / publisher pages · companion to <code style="background:#f0f1f3;padding:1px 6px;border-radius:5px">lit_review_normative_definitions.md</code></p>
+
+  <div class="scope">
+    <b>How to read this.</b> Each <b>family</b> (A–H) states a general bias functional \(\mathrm{Bias}(M)\); the model is unbiased iff it vanishes. The table below each definition has one row per paper, instantiating the family's abstract symbols (\(x,\,s,\,c,\,D_\mathrm{ref},\dots\)) for that study. Notation is shared across families — see the key. Family <b>M</b> treats the cross-cutting question of controlling for content quality. <span class="new">NEW</span> marks papers added to your Zotero import file.
+  </div>
+
+  <div class="notation">
+    <h2>Shared notation</h2>
+    <table class="key">
+      <tr><td class="sym">\(M\)</td><td>the model under evaluation</td></tr>
+      <tr><td class="sym">\(x,\;\;y=M(x)\)</td><td>an input (prompt, test item, query, or document set) and the model's output</td></tr>
+      <tr><td class="sym">\(g\)</td><td>a group of people — partisan, issue-position, or demographic</td></tr>
+      <tr><td class="sym">\(\phi(\cdot),\;\;\theta_M\)</td><td>a feature/position map, and the model's resulting position in a value space</td></tr>
+      <tr><td class="sym">\(c\)</td><td>the reference ("neutral") point</td></tr>
+      <tr><td class="sym">\(s(\cdot)\)</td><td>a scalar score — reward, approval, agreement, similarity, or stance</td></tr>
+      <tr><td class="sym">\(Q(\cdot)\)</td><td>a quality / helpfulness functional</td></tr>
+      <tr><td class="sym">\(D_M,\;\;D_{\mathrm{ref}}\)</td><td>the model's output distribution and a reference distribution</td></tr>
+      <tr><td class="sym">\(d(\cdot,\cdot)\)</td><td>a divergence or distance between distributions</td></tr>
+      <tr><td class="sym">\(\mathcal{V},\;\;\mathrm{cov}(y)\)</td><td>the set of admissible perspectives, and those covered by output \(y\)</td></tr>
+      <tr><td class="sym">\(\sigma\)</td><td>perceived slant (signed)</td></tr>
+      <tr><td class="sym">\(\Delta\)</td><td>a difference, or a causal/treatment effect</td></tr>
+      <tr><td class="sym">\(\mathrm{Bias}(M)\)</td><td>the family's bias functional; \(M\) is unbiased iff it vanishes (or \(\theta_M=c\), \(D_M=D_{\mathrm{ref}}\), …)</td></tr>
+    </table>
+  </div>
+
+  <nav class="toc">
+    <h2>Definitional families</h2>
+    <ol>
+      <li><a href="#famA"><span class="tag" style="background:var(--accentA)">A</span>Instrument-centre</a></li>
+      <li><a href="#famB"><span class="tag" style="background:var(--accentB)">B</span>Matched-pair symmetry</a></li>
+      <li><a href="#famC"><span class="tag" style="background:var(--accentC)">C</span>Even-handedness (equal quality)</a></li>
+      <li><a href="#famD"><span class="tag" style="background:var(--accentD)">D</span>Distribution-matching</a></li>
+      <li><a href="#famE"><span class="tag" style="background:var(--accentE)">E</span>Pluralism / diversity</a></li>
+      <li><a href="#famF"><span class="tag" style="background:var(--accentF)">F</span>Perception / approval</a></li>
+      <li><a href="#famG"><span class="tag" style="background:var(--accentG)">G</span>Downstream effects</a></li>
+      <li><a href="#famH"><span class="tag" style="background:var(--accentH)">H</span>Norm-sceptical / validity</a></li>
+      <li><a href="#famM"><span class="tag" style="background:var(--accentM)">M</span>Mediating factors &amp; quality</a></li>
+    </ol>
+  </nav>
+</header>
+
+<div class="wrap">
+
+<!-- ============ A ============ -->
+<section class="fam" id="famA">
+  <div class="famhead"><div class="badge">A</div><div>
+    <h2>Instrument-centre norms</h2>
+    <p class="sub">Unbiased = the political test's own midpoint. Administer a questionnaire, read off a position.</p>
+  </div></div>
+  <div class="def">
+    <div class="lbl">General definition</div>
+    $$\theta_M=\tfrac{1}{T}\textstyle\sum_{t=1}^{T}\phi\bigl(M(x_t)\bigr),\qquad \mathrm{Bias}(M)=\lVert\theta_M-c\rVert,\qquad M\text{ unbiased}\iff\theta_M=c.$$
+    <p class="where"><b>where</b> \(x_t\) = test items, \(\phi\) = the test's scoring map into a value space, \(\theta_M\) = the model's position, \(c\) = the instrument's neutral point. <b>Variant (Motoki):</b> replace the fixed \(c\) with self-symmetry — regress the default answers on a partisan persona's, \(\theta^{\mathrm{def}}=\beta_0+\beta_1\theta^{\mathrm{persona}}+\varepsilon\), unbiased \(\iff\beta_1=0\).</p>
+  </div>
+  <div class="tablewrap"><table class="inst">
+    <thead><tr><th>Paper</th><th>Items \(x_t\)</th><th>Map \(\phi\) → \(\theta_M\)</th><th>Reference \(c\)</th><th>Bias metric / finding</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="paper"><a href="https://www.mdpi.com/2076-0760/12/3/148">The Political Biases of ChatGPT</a><span class="cite">Rozado · Soc. Sci. 2023</span><a class="pdf alt" href="https://doi.org/10.3390/socsci12030148">DOI</a></td>
+        <td class="val">15 orientation tests (PCT, Pew, …)</td>
+        <td class="val">each test's scoring → quadrant/scale</td>
+        <td class="val">test centre; + fact/value split (neutral only on lawful normative issues)</td>
+        <td class="metric"># tests classifying non-centrist: 14/15 left</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0306621">The political preferences of LLMs</a><span class="cite">Rozado · PLOS ONE 2024</span><a class="pdf alt" href="https://doi.org/10.1371/journal.pone.0306621">DOI</a></td>
+        <td class="val">11 tests × 24 LLMs</td>
+        <td class="val">test scoring → 2-axis position</td>
+        <td class="val">centre, <b>validated by a random-answer baseline</b> (random ≈ centre)</td>
+        <td class="metric">signed distance from \(c\); left lean from fine-tuning</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2301.01768">The political ideology of conversational AI</a><span class="cite">Hartmann et al. · arXiv:2301.01768 · 2023</span><a class="pdf" href="https://arxiv.org/pdf/2301.01768">arXiv PDF</a></td>
+        <td class="val">630 VAA statements + PCT</td>
+        <td class="val">agree/disagree → party proximity</td>
+        <td class="val">party-equidistance within VAA logic</td>
+        <td class="metric">"would vote Green"; robust to negation/order/language</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://link.springer.com/article/10.1007/s11127-023-01097-2">More human than human</a><span class="cite">Motoki et al. · Public Choice 2024</span><a class="pdf alt" href="https://doi.org/10.1007/s11127-023-01097-2">DOI</a></td>
+        <td class="val">62 PCT items × partisan personas</td>
+        <td class="val">PCT answers (default &amp; persona)</td>
+        <td class="val"><b>\(\beta_1=0\)</b> vs the model's own personas (not a fixed \(c\))</td>
+        <td class="metric">default–"avg Democrat" corr 0.96; placebo + dose-response pass</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2305.08283">From Pretraining Data to LMs to Downstream Tasks</a><span class="cite">Feng et al. · ACL 2023 (Best Paper)</span><a class="pdf" href="https://arxiv.org/pdf/2305.08283">arXiv PDF</a></td>
+        <td class="val">PCT via mask-fill / stance detection</td>
+        <td class="val">stance → social+economic axes</td>
+        <td class="val">compass centre; <b>+ equal downstream classifier performance across \(g\)</b></td>
+        <td class="metric">compass position tracks pretraining corpus → downstream unfairness</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2304.07333">The Self-Perception and Political Biases of ChatGPT</a><span class="cite">Rutinowski et al. · arXiv:2304.07333 · 2023</span><a class="pdf" href="https://arxiv.org/pdf/2304.07333">arXiv PDF</a></td>
+        <td class="val">PCT + G7 questionnaires (10× each)</td>
+        <td class="val">test scoring → position</td>
+        <td class="val">test centre \((0,0)\)</td>
+        <td class="metric">PCT ≈ (−6.5, −6.0): "progressive views"</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://www.frontiersin.org/articles/10.3389/frai.2023.1232003/full">Revisiting the political biases of ChatGPT</a><span class="cite">Fujimoto &amp; Takemoto · Front. AI 2023</span><a class="pdf alt" href="https://doi.org/10.3389/frai.2023.1232003">DOI</a></td>
+        <td class="val">7 tests × 20 reps; EN/JA; personas</td>
+        <td class="val">test scoring → position</td>
+        <td class="val">centre; <b>neutral responding</b> treated as expected default</td>
+        <td class="metric">much weaker bias than Rozado; PCT is the outlier instrument</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://www.nature.com/articles/s41599-025-04465-z">"Turning right"? Political value shift in LLMs</a><span class="cite">Liu, Panwang &amp; Gu · HSSC 2025</span><a class="pdf alt" href="https://doi.org/10.1057/s41599-025-04465-z">DOI</a></td>
+        <td class="val">PCT × successive ChatGPT versions</td>
+        <td class="val">test scoring → quadrant</td>
+        <td class="val">the model's <b>own earlier version</b> (drift baseline)</td>
+        <td class="metric">stays libertarian-left but significant rightward drift over time</td>
+      </tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ B ============ -->
+<section class="fam" id="famB">
+  <div class="famhead"><div class="badge">B</div><div>
+    <h2>Matched-pair symmetry</h2>
+    <p class="sub">Unbiased = equal treatment of content identical except for partisan direction. Topic/style held constant by construction.</p>
+  </div></div>
+  <div class="def">
+    <div class="lbl">General definition</div>
+    $$\mathrm{Bias}(M)=\Delta=\mathbb{E}_{(x^{L},x^{R})\sim\mathcal{T}}\!\left[\,s\bigl(M,x^{L}\bigr)-s\bigl(M,x^{R}\bigr)\,\right],\qquad M\text{ unbiased}\iff\Delta=0.$$
+    <p class="where"><b>where</b> \(\mathcal{T}\) = a set of twin pairs \((x^{L},x^{R})\) differing only in political direction, \(s\) = the score compared across the pair. <b>Variant (Gubelmann):</b> let \(s=e\) be an error indicator, so competence cannot be read as bias — \(\mathrm{Bias}=\Pr(e{=}1\mid\text{right-favouring})-\Pr(e{=}1\mid\text{left-favouring})\).</p>
+  </div>
+  <div class="tablewrap"><table class="inst">
+    <thead><tr><th>Paper</th><th>Twin set \(\mathcal{T}\)</th><th>Score \(s\)</th><th>Bias \(\Delta\) / finding</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2409.05283">On the Relationship between Truth and Political Bias</a><span class="cite">Fulay et al. · EMNLP 2024</span><a class="pdf" href="https://arxiv.org/pdf/2409.05283">arXiv PDF</a></td>
+        <td class="val"><b>TwinViews-13k</b>: L/R statements matched on topic, style, length</td>
+        <td class="val">\(s=r_\phi\), a reward model's score</td>
+        <td class="metric">mean reward gap; truth-only training <em>induces</em> left lean (survives matching)</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://aclanthology.org/2025.acl-long.1450/">Reliability &amp; Political Bias in LLMs' Inference Judgements</a><span class="cite">Gubelmann &amp; Karray · ACL 2025</span><a class="pdf alt" href="https://aclanthology.org/2025.acl-long.1450/">ACL PDF</a></td>
+        <td class="val">logically <b>equivalent</b> inference pairs, partisan conclusion flipped</td>
+        <td class="val">\(s=e\), error indicator (validity held constant)</td>
+        <td class="metric">error-rate gap; left-favouring asymmetry persists</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2503.10649">Measuring Political Preferences in AI Systems</a><span class="cite">Rozado · arXiv:2503.10649 · 2025</span><a class="pdf" href="https://arxiv.org/pdf/2503.10649">arXiv PDF</a></td>
+        <td class="val">L/R congressional language; L/R public figures</td>
+        <td class="val">\(s=\) linguistic similarity; sentiment</td>
+        <td class="metric">multi-probe symmetry gap; consistent left lean</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2402.17649">Beyond Prompt Brittleness (ProbVAA)</a><span class="cite">Ceron et al. · TACL 2024</span><a class="pdf" href="https://arxiv.org/pdf/2402.17649">arXiv PDF</a></td>
+        <td class="val">VAA statements, 7 EU countries (+ paraphrase/negation twins)</td>
+        <td class="val">\(s=\) stance agreement with party blocs</td>
+        <td class="metric">only reliable items interpreted; left overall but pro-law-and-order</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2403.13592">Llama meets EU</a><span class="cite">Chalkidis &amp; Brandl · NAACL 2024</span><a class="pdf" href="https://arxiv.org/pdf/2403.13592">arXiv PDF</a></td>
+        <td class="val">EUANDI 2019 statements</td>
+        <td class="val">\(s=\) proximity to euro-party positions</td>
+        <td class="metric">left/green-proximate; party fine-tuning realigns it</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2405.13041">Assessing political bias in LLMs</a><span class="cite">Rettenberger et al. · JCSS 2025</span><a class="pdf" href="https://arxiv.org/pdf/2405.13041">arXiv PDF</a></td>
+        <td class="val">Wahl-O-Mat statements (2024 EP)</td>
+        <td class="val">\(s=\) party-alignment score</td>
+        <td class="metric">large models lean Green/SPD/Linke; small ones neutral</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2505.04393">Large Means Left</a><span class="cite">Exler et al. · arXiv:2505.04393 · 2025</span><a class="pdf" href="https://arxiv.org/pdf/2505.04393">arXiv PDF</a></td>
+        <td class="val">Wahl-O-Mat across model sizes</td>
+        <td class="val">\(s=\) party alignment; + actual election results as anchor</td>
+        <td class="metric">left alignment increases monotonically with parameters</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2601.08785">Parliamentary Voting Records</a> <span class="new">NEW</span><span class="cite">Chen et al. · arXiv:2601.08785 · 2026</span><a class="pdf" href="https://arxiv.org/pdf/2601.08785">arXiv PDF</a></td>
+        <td class="val">real motions (NL/NO/ES); parties in Chapel Hill Expert Survey space</td>
+        <td class="val">\(s=\) vote agreement, projected to CHES axes</td>
+        <td class="metric">relational position; asymmetric negativity toward right-conservative parties</td>
+      </tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ C ============ -->
+<section class="fam" id="famC">
+  <div class="famhead"><div class="badge">C</div><div>
+    <h2>Even-handedness — equal quality of treatment</h2>
+    <p class="sub">Stance-taking on request is allowed; the bias is <em>asymmetric helpfulness</em> across mirrored requests. The frontier-lab convergence point.</p>
+  </div></div>
+  <div class="def">
+    <div class="lbl">General definition</div>
+    $$E(M)=\mathbb{E}_{x}\,\mathbb{1}\!\left\{\bigl|Q\bigl(M,x^{L}\bigr)-Q\bigl(M,x^{R}\bigr)\bigr|<\epsilon\right\},\qquad M\text{ unbiased}\iff E(M)=1.$$
+    <p class="where"><b>where</b> \((x^{L},x^{R})\) = mirrored left/right framings of one request, \(Q\) = a task-conditional quality/helpfulness functional, \(\epsilon\) = a tolerance. <b>Variant (Liu):</b> generative conditional independence from an innocuous attribute \(o\) — \(\Pr(y{=}1\mid\psi\cap o)=\Pr(y{=}1\mid\psi)\), with calibration target \(\Pr(y{=}1)\to\tfrac12\).</p>
+  </div>
+  <div class="tablewrap"><table class="inst">
+    <thead><tr><th>Paper</th><th>Mirrored input \((x^L,x^R)\)</th><th>Quality / score functional \(Q\)</th><th>Metric / finding</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="paper"><a href="https://www.anthropic.com/news/political-even-handedness">Measuring political bias in Claude</a><span class="cite">Anthropic · blog + eval · Nov 2025</span><a class="pdf" href="https://www.anthropic.com/news/political-even-handedness">Blog</a> <a class="pdf alt" href="https://github.com/anthropics/political-neutrality-eval">Code</a></td>
+        <td class="val">150 topics × 6 task types, opposing positions</td>
+        <td class="val">\(Q=\) grader helpfulness (depth, engagement, strength of evidence)</td>
+        <td class="metric">\(E=\)% "similarly helpful"; Claude Sonnet 4.5 ≈ 94%; refusal scored as failure</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://openai.com/index/defining-and-evaluating-political-bias-in-llms/">Defining and evaluating political bias in LLMs</a><span class="cite">OpenAI · report · Oct 2025</span><a class="pdf" href="https://openai.com/index/defining-and-evaluating-political-bias-in-llms/">Report</a></td>
+        <td class="val">100 topics × 5 framings (charged↔neutral, L↔R)</td>
+        <td class="val">\(Q=\) 5 axes: invalidation, escalation, personal expression, asymmetric coverage, refusal</td>
+        <td class="metric">mean axis violation; GPT-5 ≈ 30% less than GPT-4o; accuracy outside rubric</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2104.14795">Mitigating Political Bias through Reinforced Calibration</a><span class="cite">Liu et al. · AAAI 2021 / Artif. Intell. 2022</span><a class="pdf" href="https://arxiv.org/pdf/2104.14795">arXiv PDF</a> <a class="pdf alt" href="https://doi.org/10.1016/j.artint.2021.103654">Journal</a></td>
+        <td class="val">GPT-2 continuations w/ attribute \(o\) (state, topic) or L/R trigger</td>
+        <td class="val">\(s=\Pr(y{=}1)\) from an ideology classifier</td>
+        <td class="metric">indirect = Wasserstein dep. on \(o\); direct = L/R trigger gap; target \(\to\tfrac12\)</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2403.18932">What Is Said and How It Is Said</a><span class="cite">Bang et al. · ACL 2024</span><a class="pdf" href="https://arxiv.org/pdf/2403.18932">arXiv PDF</a></td>
+        <td class="val">headline generation, 14 topics; model-generated pro/anti anchors</td>
+        <td class="val">\(s=\) SBERT distance to anchors; framing = content + style</td>
+        <td class="metric">stance norm \(\lVert d_{\mathrm{pro}}-d_{\mathrm{opp}}\rVert<\epsilon\); framing left cross-model relative</td>
+      </tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ D ============ -->
+<section class="fam" id="famD">
+  <div class="famhead"><div class="badge">D</div><div>
+    <h2>Distribution-matching norms</h2>
+    <p class="sub">Unbiased = the output distribution equals a reference distribution. The family closest to the gatekeeping question in the DPhil — distinguished by <em>which</em> distribution is the reference.</p>
+  </div></div>
+  <div class="def">
+    <div class="lbl">General definition</div>
+    $$\mathrm{Bias}(M)=d\!\left(D_M,\,D_{\mathrm{ref}}\right),\qquad M\text{ unbiased}\iff D_M=D_{\mathrm{ref}}.$$
+    <p class="where"><b>where</b> \(D_M\) = the model's output distribution (answers, mentions, recommended items, citations), \(D_{\mathrm{ref}}\) = the reference, \(d\) = a divergence. Sub-families differ only in \(D_{\mathrm{ref}}\): &nbsp;<b><span class="sf" style="background:#3b6cb0">D1</span></b> a surveyed population; &nbsp;<b><span class="sf" style="background:#6b8e23">D2</span></b> real-world distributions (polls, results, salience); &nbsp;<b><span class="sf" style="background:#9c2a6e">D3</span></b> the input pool/source the system was given (gatekeeping fidelity).</p>
+  </div>
+  <div class="tablewrap"><table class="inst">
+    <thead><tr><th>Paper</th><th>Output dist \(D_M\)</th><th>Reference \(D_{\mathrm{ref}}\)</th><th>Divergence \(d\)</th><th>Sub</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2303.17548">Whose Opinions Do LMs Reflect? (OpinionQA)</a><span class="cite">Santurkar et al. · ICML 2023</span><a class="pdf" href="https://arxiv.org/pdf/2303.17548">arXiv PDF</a></td>
+        <td class="val">answer-choice distribution over Pew items</td>
+        <td class="val">Pew ATP: US public + 60 subgroups</td>
+        <td class="val">1-Wasserstein (ordinal); \(A=1-\tfrac{\mathrm{WD}}{N-1}\)</td>
+        <td><span class="sf" style="background:#3b6cb0">D1</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2306.16388">GlobalOpinionQA</a><span class="cite">Durmus et al. (Anthropic) · COLM 2024</span><a class="pdf" href="https://arxiv.org/pdf/2306.16388">arXiv PDF</a></td>
+        <td class="val">answer distribution over GAS/WVS items</td>
+        <td class="val">per-country human distributions</td>
+        <td class="val">\(1-\mathrm{JSD}\)</td>
+        <td><span class="sf" style="background:#3b6cb0">D1</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2209.06899">Out of One, Many</a><span class="cite">Argyle et al. · Political Analysis 2023</span><a class="pdf" href="https://arxiv.org/pdf/2209.06899">arXiv PDF</a></td>
+        <td class="val">responses conditioned on ANES backstories</td>
+        <td class="val">ANES subgroup distributions (matching = a <em>virtue</em>)</td>
+        <td class="val">"algorithmic fidelity" (conditional)</td>
+        <td><span class="sf" style="background:#3b6cb0">D1</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2411.05403">Benchmarking Distributional Alignment</a><span class="cite">Meister et al. · ICLR 2025</span><a class="pdf" href="https://arxiv.org/pdf/2411.05403">arXiv PDF</a></td>
+        <td class="val">verbalised vs token-prob vs sampled distribution</td>
+        <td class="val">a target demographic group's distribution</td>
+        <td class="val">decomposed by expression method</td>
+        <td><span class="sf" style="background:#3b6cb0">D1</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2603.23474">Bias in search engines &amp; LMs before elections</a><span class="cite">Damião et al. · arXiv:2603.23474 · 2026</span><a class="pdf" href="https://arxiv.org/pdf/2603.23474">arXiv PDF</a></td>
+        <td class="val">entity/issue mention shares \(m_e\)</td>
+        <td class="val"><b>three</b> baselines \(b_e\): polls, past results, media salience</td>
+        <td class="val">signed difference \(m_e-b_e\)</td>
+        <td><span class="sf" style="background:#6b8e23">D2</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2604.15937">Polarization by Default</a> <span class="new">NEW</span><span class="cite">Pagan et al. · arXiv:2604.15937 · 2026</span><a class="pdf" href="https://arxiv.org/pdf/2604.15937">arXiv PDF</a></td>
+        <td class="val">feature distribution of recommended posts</td>
+        <td class="val">the candidate <b>pool</b> (\(\Delta p_i=p_{\mathrm{rec},i}-p_{\mathrm{pool},i}\))</td>
+        <td class="val">Cramér's V / Cohen's d → \(R^2\)</td>
+        <td><span class="sf" style="background:#9c2a6e">D3</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://link.springer.com/chapter/10.1007/978-3-031-71975-2_3">Few-Shot News Summarization</a><span class="cite">Onishi &amp; Caverlee · BIAS@SIGIR 2024</span><a class="pdf alt" href="https://doi.org/10.1007/978-3-031-71975-2_3">DOI</a></td>
+        <td class="val">stance/word-choice of the summary</td>
+        <td class="val">the summary's <b>own input document</b></td>
+        <td class="val">stance drift input→output</td>
+        <td><span class="sf" style="background:#9c2a6e">D3</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2604.21309">When Bigger Isn't Better</a> <span class="new">NEW</span><span class="cite">Huang, Maab &amp; Yamagishi · ACL 2026</span><a class="pdf" href="https://arxiv.org/pdf/2604.21309">arXiv PDF</a></td>
+        <td class="val">viewpoint representation in the summary</td>
+        <td class="val">the <b>source set's</b> viewpoint diversity (FairNews)</td>
+        <td class="val">5 fairness metrics (incl. minority-voice)</td>
+        <td><span class="sf" style="background:#9c2a6e">D3</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://aclanthology.org/2025.emnlp-main.856/">Fair or Framed?</a><span class="cite">Yoo &amp; Shin · EMNLP 2025</span><a class="pdf alt" href="https://aclanthology.org/2025.emnlp-main.856/">ACL PDF</a></td>
+        <td class="val">article stance from an opinion set</td>
+        <td class="val">the supplied <b>L:R input ratio</b></td>
+        <td class="val">\(\Delta_{\mathrm{bias}}=\Pr(L\!\mid\!L\text{-min})-\Pr(R\!\mid\!R\text{-min})\)</td>
+        <td><span class="sf" style="background:#9c2a6e">D3</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://aclanthology.org/2025.emnlp-main.872/">Media Source Matters More Than Content</a><span class="cite">Dai et al. · EMNLP 2025</span><a class="pdf alt" href="https://aclanthology.org/2025.emnlp-main.872/">ACL PDF</a></td>
+        <td class="val">L/R distribution of cited sources</td>
+        <td class="val">a <b>content-relevance retrieval baseline</b> (BM25/dense)</td>
+        <td class="val">share gap vs retriever; outlet-masking</td>
+        <td><span class="sf" style="background:#9c2a6e">D3</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://dl.acm.org/doi/10.1145/3308558.3313654">Auditing the Partisanship of Google Snippets</a><span class="cite">Hu et al. · WWW 2019</span><a class="pdf alt" href="https://doi.org/10.1145/3308558.3313654">DOI</a></td>
+        <td class="val">partisan cues in the snippet</td>
+        <td class="val">the <b>source page</b> the snippet was drawn from</td>
+        <td class="val">Gentzkow–Shapiro \(\gamma\) difference</td>
+        <td><span class="sf" style="background:#9c2a6e">D3</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://dl.acm.org/doi/10.1145/3274417">Auditing Partisan Audience Bias in Google Search</a><span class="cite">Robertson et al. · CSCW 2018</span><a class="pdf alt" href="https://doi.org/10.1145/3274417">DOI</a></td>
+        <td class="val">audience-bias of ranked results</td>
+        <td class="val">the <b>retrieved set</b> (filtering vs ranking)</td>
+        <td class="val">ranking bias \(=\bar b-\bar b_{\mathrm{weighted}}\)</td>
+        <td><span class="sf" style="background:#9c2a6e">D3</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2410.09978">When Neutral Summaries are not that Neutral</a><span class="cite">Vijay et al. · AAAI 2025 (SA)</span><a class="pdf" href="https://arxiv.org/pdf/2410.09978">arXiv PDF</a></td>
+        <td class="val">default summary's separability</td>
+        <td class="val">the model's <b>own</b> Dem- and Rep-slanted summaries</td>
+        <td class="val">\(P=\mathrm{diff}(D,D_N)-\mathrm{diff}(R,D_N)\)</td>
+        <td><span class="sf" style="background:#9c2a6e">D3*</span></td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2306.07951">Questioning the Survey Responses of LLMs</a><span class="cite">Dominguez-Olmedo et al. · NeurIPS 2024</span><a class="pdf" href="https://arxiv.org/pdf/2306.07951">arXiv PDF</a></td>
+        <td class="val">survey answer distribution</td>
+        <td class="val"><em>critique:</em> any \(D_{\mathrm{ref}}\) match is a format artifact</td>
+        <td class="val">ordering/label-randomisation → uniform</td>
+        <td><span class="sf" style="background:#555f6b">crit</span></td>
+      </tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ E ============ -->
+<section class="fam" id="famE">
+  <div class="famhead"><div class="badge">E</div><div>
+    <h2>Pluralism / diversity norms</h2>
+    <p class="sub">Unbiased = adequate coverage of perspectives — within one response (Overton) or across the output distribution.</p>
+  </div></div>
+  <div class="def">
+    <div class="lbl">General definition</div>
+    $$\text{OvertonScore}(M)=\mathbb{E}_{y\sim M}\!\left[\frac{|\mathrm{cov}(y)|}{|\mathcal{V}|}\right]\!,\;\;\text{ideal}\iff\mathrm{cov}(y)=\mathcal{V};\qquad\text{distributional:}\;\;P_M=P_G.$$
+    <p class="where"><b>where</b> \(\mathcal{V}\) = the set of admissible ("reasonable") perspectives on a question, \(\mathrm{cov}(y)\) = those represented in response \(y\), \(P_G\) = a population's perspective distribution. Diversity variants set the ideal as \(\mathrm{Div}(M)\ge\mathrm{Div}(\text{external baseline})\).</p>
+  </div>
+  <div class="tablewrap"><table class="inst">
+    <thead><tr><th>Paper</th><th>Perspective set \(\mathcal{V}\)</th><th>Coverage \(\mathrm{cov}(y)\) / metric</th><th>Finding</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2402.05070">A Roadmap to Pluralistic Alignment</a><span class="cite">Sorensen et al. · ICML 2024</span><a class="pdf" href="https://arxiv.org/pdf/2402.05070">arXiv PDF</a></td>
+        <td class="val">"all reasonable answers in the Overton window"</td>
+        <td class="val">defines 3 ideals: Overton, steerable, distributional</td>
+        <td class="metric">canonical taxonomy; alignment reduces distributional pluralism</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2512.01351">Benchmarking Overton Pluralism (OvertonBench)</a><span class="cite">Poole-Dayan et al. · arXiv:2512.01351 · 2025</span><a class="pdf" href="https://arxiv.org/pdf/2512.01351">arXiv PDF</a></td>
+        <td class="val">empirical viewpoint clusters from a US-rep. sample (N=1,208)</td>
+        <td class="val">cluster "covered" if mean rep. rating ≥ 4/5</td>
+        <td class="metric">all frontier models 0.35–0.42; pooled coverage only 0.69</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2406.17692">From Distributional to Overton Pluralism</a><span class="cite">Lake, Choi &amp; Durrett · NAACL 2025</span><a class="pdf" href="https://arxiv.org/pdf/2406.17692">arXiv PDF</a></td>
+        <td class="val">perspectives across base-model samples</td>
+        <td class="val">within-response coverage vs cross-sample diversity</td>
+        <td class="metric">"diversity loss" is largely quality control + aggregation</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2510.04226">Epistemic Diversity &amp; Knowledge Collapse</a><span class="cite">Wright et al. · arXiv:2510.04226 · 2025</span><a class="pdf" href="https://arxiv.org/pdf/2510.04226">arXiv PDF</a></td>
+        <td class="val">the set of real-world claims on a topic</td>
+        <td class="val">claim-set diversity vs <b>web search / Wikipedia</b></td>
+        <td class="metric">all 27 models less diverse than basic search; size hurts</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2404.16019">The PRISM Alignment Dataset</a><span class="cite">Kirk et al. · NeurIPS 2024</span><a class="pdf" href="https://arxiv.org/pdf/2404.16019">arXiv PDF</a></td>
+        <td class="val">the humans who <em>provide feedback</em> (upstream)</td>
+        <td class="val">participatory, demographically representative sampling</td>
+        <td class="metric">alignment depends on which humans rate</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2402.05880">Generative Echo Chamber?</a><span class="cite">Sharma, Liao &amp; Xiao · CHI 2024</span><a class="pdf" href="https://arxiv.org/pdf/2402.05880">arXiv PDF</a></td>
+        <td class="val">balanced exposure across a curated corpus</td>
+        <td class="val">confirmatory querying / attitude change</td>
+        <td class="metric">even a neutral RAG system raises confirmatory behaviour</td>
+      </tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ F ============ -->
+<section class="fam" id="famF">
+  <div class="famhead"><div class="badge">F</div><div>
+    <h2>Perception / approval norms</h2>
+    <p class="sub">Unbiased = humans — across opposing groups — judge it unbiased, or approve of it equally.</p>
+  </div></div>
+  <div class="def">
+    <div class="lbl">General definition</div>
+    $$\sigma_g(M)=\mathbb{E}_{u\in g}\bigl[\sigma\bigl(M(x)\bigr)\bigr],\;\;M\text{ unbiased}\iff\sigma_g(M)=0\;\forall g;\qquad\text{(approval)}\;\;y^{*}_x=\arg\min_{y\in\mathcal{P}(x)}\bigl|s_1(x,y)-s_2(x,y)\bigr|.$$
+    <p class="where"><b>where</b> \(u\) = a user in group \(g\), \(\sigma\) = signed perceived slant, \(s_g\) = group \(g\)'s approval of output \(y\), \(\mathcal{P}(x)\) = the Pareto frontier of \((s_1,s_2)\). Stray's Maximum Equal Approval requires both balance <em>and</em> Pareto-optimality (refusal is balanced but off-frontier).</p>
+  </div>
+  <div class="tablewrap"><table class="inst">
+    <thead><tr><th>Paper</th><th>Rater groups \(g\)</th><th>Judgment \(\sigma\) / approval \(s_g\)</th><th>Reference / finding</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="paper"><a href="https://modelslant.com/paper.pdf">Measuring Perceived Slant via User Evaluations</a><span class="cite">Westwood, Grimmer &amp; Hall · WP 2025</span><a class="pdf alt" href="https://modelslant.com/paper.pdf">Working paper</a></td>
+        <td class="val">partisan groups (Dem/Rep/Ind), census-matched</td>
+        <td class="val">\(\sigma\in[-1,1]\) from 180k paired comparisons</td>
+        <td class="metric">unbiased \(\iff\sigma_g=0\,\forall g\); 23/24 models perceived left</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2605.28911">Political Neutrality as Balanced Approval</a> <span class="new">NEW</span><span class="cite">Stray et al. · arXiv:2605.28911 · 2026</span><a class="pdf" href="https://arxiv.org/pdf/2605.28911">arXiv PDF</a></td>
+        <td class="val">two <b>issue-position</b> groups (for/against), not parties</td>
+        <td class="val">\(s_g=\) Likert approval (0–1), 208k ratings</td>
+        <td class="metric">Maximum Equal Approval; default GPT/Gemini/Claude/Llama lean liberal, Grok not</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2602.18092">Perceived Bias Reduces Persuasive Abilities</a> <span class="new">NEW</span><span class="cite">DiGiuseppe &amp; Robison · arXiv:2602.18092 · 2026</span><a class="pdf" href="https://arxiv.org/pdf/2602.18092">arXiv PDF</a></td>
+        <td class="val">in/out-party audiences (content held constant)</td>
+        <td class="val">\(\sigma\) <b>randomly induced</b> by pre-treatment warnings</td>
+        <td class="metric">out-party-bias warning attenuates persuasion 23–28%</td>
+      </tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ G ============ -->
+<section class="fam" id="famG">
+  <div class="famhead"><div class="badge">G</div><div>
+    <h2>Downstream-effects norms</h2>
+    <p class="sub">Unbiased = exposure produces no differential shift in opinions, votes, or decisions relative to a control.</p>
+  </div></div>
+  <div class="def">
+    <div class="lbl">General definition</div>
+    $$\mathrm{Bias}(M)=\mathrm{ATE}=\mathbb{E}[\Delta\mid M]-\mathbb{E}[\Delta\mid\text{control}],\qquad M\text{ unbiased}\iff\mathrm{ATE}=0\;\text{and}\;\mathbb{E}[\Delta\mid M,g]\;\text{constant in }g.$$
+    <p class="where"><b>where</b> \(\Delta\) = a user's opinion / vote / decision shift, the treatment = exposure to model \(M\), the control = a neutral or status-quo comparison, \(g\) = partisan subgroup (no heterogeneity allowed).</p>
+  </div>
+  <div class="tablewrap"><table class="inst">
+    <thead><tr><th>Paper</th><th>Outcome shift \(\Delta\)</th><th>Treatment vs control</th><th>Finding</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2410.06415">Biased LLMs can Influence Political Decision-Making</a><span class="cite">Fisher et al. · ACL 2025</span><a class="pdf" href="https://arxiv.org/pdf/2410.06415">arXiv PDF</a></td>
+        <td class="val">7-pt opinion change; budget allocation</td>
+        <td class="val">L/R-biased model vs a refusing "unbiased" control (76% PCT refusal)</td>
+        <td class="metric">cross-partisan persuasion; detection didn't attenuate</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2410.24190">Hidden Persuaders</a><span class="cite">Potter et al. · EMNLP 2024</span><a class="pdf" href="https://arxiv.org/pdf/2410.24190">arXiv PDF</a></td>
+        <td class="val">vote choice (pre/post)</td>
+        <td class="val">ordinary chat (not told to persuade); no separate control</td>
+        <td class="metric">margin 0.7%→4.6%; "is neutrality the path forward?"</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2302.00560">Co-Writing with Opinionated LMs</a><span class="cite">Jakesch et al. · CHI 2023</span><a class="pdf" href="https://arxiv.org/pdf/2302.00560">arXiv PDF</a></td>
+        <td class="val">essay content + post-task attitude</td>
+        <td class="val">pro- vs anti-opinionated assistant</td>
+        <td class="metric">"latent persuasion": shifts both writing and views</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2509.05219">Conversational AI increases political knowledge</a><span class="cite">Luettgau et al. · arXiv:2509.05219 · 2025</span><a class="pdf" href="https://arxiv.org/pdf/2509.05219">arXiv PDF</a></td>
+        <td class="val">true-belief / misinformation-disbelief</td>
+        <td class="val">conversational AI vs self-directed search</td>
+        <td class="metric">AI ≈ search (β diff ≈ 0.02); effect across perspectives</td>
+      </tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ H ============ -->
+<section class="fam" id="famH">
+  <div class="famhead"><div class="badge">H</div><div>
+    <h2>Norm-sceptical &amp; validity critiques</h2>
+    <p class="sub">Not a rival reference point — arguments that the measurement, or the idea of a fixed neutral point, fails first.</p>
+  </div></div>
+  <div class="def">
+    <div class="lbl">General definition (the critique form)</div>
+    $$\text{identifiable}\iff\mathrm{Var}_{\pi\in\Pi}\!\bigl(\theta_M^{\pi}\bigr)\to 0;\qquad\text{Törnberg:}\;\;\theta_M=f(a),\;\;\bigl|\partial\theta_M/\partial a\bigr|\;\text{large}.$$
+    <p class="where"><b>where</b> \(\Pi\) = a set of meaning-preserving perturbations (paraphrase, option order, forcing prompt), \(\theta_M^{\pi}\) = the position measured under \(\pi\), \(a\) = the inferred auditor/asker. A position is only a "bias" if stable; for some, no fixed point exists.</p>
+  </div>
+  <div class="tablewrap"><table class="inst">
+    <thead><tr><th>Paper</th><th>Perturbation / factor</th><th>Claim about the reference point</th><th>Finding</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2402.16786">Political Compass or Spinning Arrow?</a><span class="cite">Röttger et al. · ACL 2024 (Outstanding)</span><a class="pdf" href="https://arxiv.org/pdf/2402.16786">arXiv PDF</a></td>
+        <td class="val">forced choice, forcing-prompt wording, paraphrase</td>
+        <td class="val">PCT placement isn't a stable construct; needs ecological validity</td>
+        <td class="metric">answers change when unforced / reworded / paraphrased</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2604.27633">Audits Capture Sycophancy to the Inferred Auditor</a> <span class="new">NEW</span><span class="cite">Törnberg &amp; Schimmel · arXiv:2604.27633 · 2026</span><a class="pdf" href="https://arxiv.org/pdf/2604.27633">arXiv PDF</a></td>
+        <td class="val">asker's stated identity \(a\) (only this varied)</td>
+        <td class="val">no fixed point: \(\theta_M=f(a)\) — a response profile</td>
+        <td class="metric">Dem-coded share falls 28–62pp; rightward accommodation 8×</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2503.16148">Only a Little to the Left</a><span class="cite">Faulborn et al. · ACL 2025</span><a class="pdf" href="https://arxiv.org/pdf/2503.16148">arXiv PDF</a></td>
+        <td class="val">wide prompt-variation grid (88k responses)</td>
+        <td class="val">bias = <em>systematic, stable</em> deviation; instability is noise</td>
+        <td class="metric">lean is real but "only a little"; PCT inflates it</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2503.13149">Are LLMs (Really) Ideological? (IRT)</a><span class="cite">Wachter et al. · arXiv:2503.13149 · 2025</span><a class="pdf" href="https://arxiv.org/pdf/2503.13149">arXiv PDF</a></td>
+        <td class="val">item difficulty + an avoidance parameter</td>
+        <td class="val">must separate <em>avoidance</em> from <em>position</em></td>
+        <td class="metric">models mostly avoid engagement rather than lean</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2507.15328">Inevitability of Left-Leaning Bias in Aligned LMs</a><span class="cite">Hagendorff · arXiv:2507.15328 · 2025</span><a class="pdf" href="https://arxiv.org/pdf/2507.15328">arXiv PDF</a></td>
+        <td class="val">— (conceptual)</td>
+        <td class="val">the centre is the wrong target: HHH entails left-coded positions</td>
+        <td class="metric">left placement is alignment working as intended</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2503.05728">Political Neutrality in AI Is Impossible</a><span class="cite">Fisher et al. · ICML 2025 (oral)</span><a class="pdf" href="https://arxiv.org/pdf/2503.05728">arXiv PDF</a></td>
+        <td class="val">— (position paper)</td>
+        <td class="val">neutrality is a matter of degree (after Raz), not absolute</td>
+        <td class="metric">8 approximation techniques across 3 levels</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2005.14050">Language (Technology) is Power</a><span class="cite">Blodgett et al. · ACL 2020</span><a class="pdf" href="https://arxiv.org/pdf/2005.14050">arXiv PDF</a></td>
+        <td class="val">survey of 146 "bias" papers</td>
+        <td class="val">motivations "vague, inconsistent… lacking normative reasoning"</td>
+        <td class="metric">the gap this whole taxonomy responds to</td>
+      </tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ M ============ -->
+<section class="fam" id="famM">
+  <div class="famhead"><div class="badge">M</div><div>
+    <h2>Mediating factors &amp; quality control</h2>
+    <p class="sub">The central methodological question: does any study separate political slant from confounds such as content quality?</p>
+  </div></div>
+  <div class="def">
+    <div class="lbl">The decomposition the literature mostly does <em>not</em> do</div>
+    $$\underbrace{\mathrm{TE}}_{X\to Y}=\underbrace{\mathrm{NDE}}_{\text{direct }X\to Y}+\underbrace{\mathrm{NIE}}_{X\to Q\to Y}.$$
+    <p class="where"><b>where</b> \(X\) = the protected attribute (party / stance), \(Y\) = measured or perceived slant, \(Q\) = a quality mediator (truth, length, fluency, persuasiveness, relevance). <b>By-design control</b> fixes \(Q\) so \(\mathrm{NIE}=0\) by construction; <b>by-statistics control</b> estimates \(\mathrm{NDE}\) vs \(\mathrm{NIE}\) — almost absent. Where it is done, the partisan gap turns out largely \(\mathrm{NIE}\), or \(Q\) absorbs an apparent capability effect.</p>
+  </div>
+  <div class="tablewrap"><table class="inst">
+    <thead><tr><th>Paper</th><th>Mediator / confound \(Q\)</th><th>Method</th><th>Effect on the bias conclusion</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2311.08605">Exploring the Jungle of Bias</a><span class="cite">Jenny et al. · arXiv:2311.08605 · 2023/24</span><a class="pdf" href="https://arxiv.org/pdf/2311.08605">arXiv PDF</a></td>
+        <td class="val">103 quality attributes (clarity, truthfulness, coherence…)</td>
+        <td class="val"><b>causal-fairness path analysis</b> (NDE vs NIE)</td>
+        <td class="metric">partisan gap largely <em>indirect</em> → "correlational estimates exaggerated"</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2507.13919">The Levers of Political Persuasion with Conversational AI</a><span class="cite">Hackenburg et al. · Science 2025</span><a class="pdf" href="https://arxiv.org/pdf/2507.13919">arXiv PDF</a></td>
+        <td class="val">information density (fact-checkable claims)</td>
+        <td class="val"><b>formal mediation</b> (Bayesian meta-regression; random forest)</td>
+        <td class="metric">explains 44–75% of persuasion variance; ↑persuasion ↓accuracy</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2406.14508">Diminishing Returns for Single-Message Persuasion</a><span class="cite">Hackenburg et al. · PNAS 2025</span><a class="pdf" href="https://arxiv.org/pdf/2406.14508">arXiv PDF</a></td>
+        <td class="val">task completion (coherence, on-topic)</td>
+        <td class="val">statistical adjustment of the size→persuasion relation</td>
+        <td class="metric">quality proxy <em>absorbs</em> larger models' advantage</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2409.05283">Truth and Political Bias (TwinViews)</a><span class="cite">Fulay et al. · EMNLP 2024</span><a class="pdf" href="https://arxiv.org/pdf/2409.05283">arXiv PDF</a></td>
+        <td class="val">topic, style, length (twins); truthfulness</td>
+        <td class="val"><b>by design</b> (matched twins) + content/style ablations</td>
+        <td class="metric">left lean <em>survives</em> the controls; truth↔politics entangled</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://aclanthology.org/2025.acl-long.1450/">Equivalent Partisan Inferences</a><span class="cite">Gubelmann &amp; Karray · ACL 2025</span><a class="pdf alt" href="https://aclanthology.org/2025.acl-long.1450/">ACL PDF</a></td>
+        <td class="val">logical validity (held constant)</td>
+        <td class="val"><b>by design</b>; bias scored over errors only</td>
+        <td class="metric">left-favouring asymmetry persists at fixed validity</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://arxiv.org/pdf/2505.13488">Source Framing Triggers Evaluation Bias</a><span class="cite">Germani &amp; Spitale · arXiv:2505.13488 · 2025</span><a class="pdf" href="https://arxiv.org/pdf/2505.13488">arXiv PDF</a></td>
+        <td class="val">content (token-identical; only attributed source varies)</td>
+        <td class="val"><b>by design</b> (192k assessments)</td>
+        <td class="metric">bias that <em>cannot</em> be quality — clean matched-content template</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://www.anthropic.com/news/political-even-handedness">Anthropic Paired Prompts</a><span class="cite">Anthropic · Nov 2025</span><a class="pdf" href="https://www.anthropic.com/news/political-even-handedness">Blog</a></td>
+        <td class="val">depth / evidence / engagement</td>
+        <td class="val"><b>by design</b>: quality-parity is the measurand</td>
+        <td class="metric">asymmetric quality <em>is</em> the bias (turns confound into definition)</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://modelslant.com/paper.pdf">Perceived Slant (Westwood et al.)</a><span class="cite">Westwood, Grimmer &amp; Hall · WP 2025</span><a class="pdf alt" href="https://modelslant.com/paper.pdf">Working paper</a></td>
+        <td class="val">perceived quality (collected per comparison)</td>
+        <td class="val"><b>measured, not controlled</b>; truth-confound argued away by topic choice</td>
+        <td class="metric">neutrality &amp; quality strongly correlated — but never partialled out</td>
+      </tr>
+      <tr>
+        <td class="paper"><a href="https://journals.sagepub.com/doi/10.1177/14614448251321162">Chatbot Accountability &amp; Gatekeeping</a><span class="cite">Kuai et al. · New Media &amp; Society 2026</span><a class="pdf alt" href="https://doi.org/10.1177/14614448251321162">DOI</a></td>
+        <td class="val">factual accuracy (scored separately from balance)</td>
+        <td class="val">cross-language audit</td>
+        <td class="metric">accuracy &amp; balance <em>anticorrelate</em> (most accurate = most omission-biased)</td>
+      </tr>
+    </tbody>
+  </table></div>
+  <div class="callout">
+    <b>The gap, precisely.</b> No LLM-political-bias study performs Imai/Pearl-style causal mediation of <em>content quality</em>; none uses IV, difference-in-differences, or propensity matching on quality covariates. The only formal mediation of a quality-type variable lives in the <em>persuasion</em> literature (Hackenburg). In the information-processing setting (summarisation, selection, RAG) the DPhil targets, <b>no study conditions a perspective-level bias estimate on document quality</b> — a perspective-extraction design that measures quality (or perplexity) and adjusts inclusion-bias for it would be the first of its kind.
+  </div>
+</section>
+
+<footer>
+  <p><b>Verification.</b> Citations checked against arXiv / ACL Anthology / publisher pages, June 2026. The OpenAI report's primary page 403'd (quotes corroborated across independent secondary reports); Onishi &amp; Caverlee verified at abstract level (Springer paywall); Westwood et al. and the Anthropic eval have no peer-reviewed paper. "arXiv PDF" resolves to <code>arxiv.org/pdf/&lt;id&gt;</code>; where no arXiv version exists the link is a DOI/canonical PDF, labelled accordingly. <b>D3*</b> = source-fidelity framing but measured against the model's own partisan poles, not the source slant.</p>
+  <p><b>Companion files.</b> Narrative analysis: <code>lit_review_normative_definitions.md</code> · Zotero import for the six new papers: <code>new_papers_for_zotero.ris</code>.</p>
+</footer>
+
+</div>
+</body>
+</html>
