@@ -129,7 +129,7 @@ window.MathJax = {
     <h2>Definitional families</h2>
     <ol>
       <li><a href="#famA"><span class="tag" style="background:var(--accentA)">A</span>Instrument-centre</a></li>
-      <li><a href="#famB"><span class="tag" style="background:var(--accentB)">B</span>Matched-pair symmetry</a></li>
+      <li><a href="#famB"><span class="tag" style="background:var(--accentB)">B</span>Partisan symmetry (pairs &amp; proximity)</a></li>
       <li><a href="#famC"><span class="tag" style="background:var(--accentC)">C</span>Even-handedness (equal quality)</a></li>
       <li><a href="#famD"><span class="tag" style="background:var(--accentD)">D</span>Distribution-matching</a></li>
       <li><a href="#famE"><span class="tag" style="background:var(--accentE)">E</span>Pluralism / diversity</a></li>
@@ -220,64 +220,73 @@ window.MathJax = {
 <!-- ============ B ============ -->
 <section class="fam" id="famB">
   <div class="famhead"><div class="badge">B</div><div>
-    <h2>Matched-pair symmetry</h2>
-    <p class="sub">Unbiased = equal treatment of content identical except for partisan direction. Topic/style held constant by construction.</p>
+    <h2>Partisan symmetry — matched pairs &amp; party-proximity</h2>
+    <p class="sub">Unbiased = no systematic favouring of one side of the partisan dimension. Two distinct operationalisations: <b><span class="sf" style="background:#2f6f6a">B1</span></b> twin pairs differing only in direction; <b><span class="sf" style="background:#9a6a2e">B2</span></b> per-statement alignment to party blocs (no twins).</p>
   </div></div>
   <div class="def">
     <div class="lbl">General definition</div>
-    $$\mathrm{Bias}(M)=\Delta=\mathbb{E}_{(x^{L},x^{R})\sim\mathcal{T}}\!\left[\,s\bigl(M,x^{L}\bigr)-s\bigl(M,x^{R}\bigr)\,\right],\qquad M\text{ unbiased}\iff\Delta=0.$$
-    <p class="where"><b>where</b> \(\mathcal{T}\) = a set of twin pairs \((x^{L},x^{R})\) differing only in political direction, \(s\) = the score compared across the pair. <b>Variant (Gubelmann):</b> let \(s=e\) be an error indicator, so competence cannot be read as bias — \(\mathrm{Bias}=\Pr(e{=}1\mid\text{right-favouring})-\Pr(e{=}1\mid\text{left-favouring})\).</p>
+    $$\textbf{B1}\;\;\mathrm{Bias}(M)=\Delta=\mathbb{E}_{(x^{L},x^{R})\sim\mathcal{T}}\!\left[\,s\bigl(M,x^{L}\bigr)-s\bigl(M,x^{R}\bigr)\,\right],\qquad M\text{ unbiased}\iff\Delta=0.$$
+    $$\textbf{B2}\;\;a(M,p)=\frac{1}{|S|}\sum_{x\in S}\mathbb{1}\!\left\{\operatorname{stance}_M(x)=\operatorname{pos}_p(x)\right\},\qquad M\text{ unbiased}\iff a(M,\cdot)\ \text{balanced across opposing blocs.}$$
+    <p class="where"><b>B1 — matched pair:</b> \(\mathcal{T}\) = twin pairs \((x^{L},x^{R})\) differing only in political direction, \(s\) = the score compared across the pair (Gubelmann variant: \(s=e\), an error indicator, so competence cannot be read as bias). <b>B2 — party-proximity:</b> \(S\) = a set of policy statements each scored <em>individually</em>, \(\operatorname{stance}_M(x)\in\{\text{agree, neutral, disagree}\}\), \(\operatorname{pos}_p(x)\) = party \(p\)'s official position, \(a(M,p)\) = the model's alignment to party \(p\) (a voting-advice-application match). The "unbiased" reference here is usually <em>implicit</em> — no party bloc systematically maximised / equidistance across the party space — rather than a within-pair difference.</p>
   </div>
   <div class="tablewrap"><table class="inst">
-    <thead><tr><th>Paper</th><th>Twin set \(\mathcal{T}\)</th><th>Score \(s\)</th><th>Bias \(\Delta\) / finding</th></tr></thead>
+    <thead><tr><th>Paper</th><th>Input compared</th><th>Score / alignment</th><th>Bias metric / finding</th><th>Type</th></tr></thead>
     <tbody>
       <tr>
         <td class="paper"><a href="https://arxiv.org/pdf/2409.05283">On the Relationship between Truth and Political Bias</a><span class="cite">Fulay et al. · EMNLP 2024</span><a class="pdf" href="https://arxiv.org/pdf/2409.05283">arXiv PDF</a></td>
         <td class="val"><b>TwinViews-13k</b>: L/R statements matched on topic, style, length</td>
         <td class="val">\(s=r_\phi\), a reward model's score</td>
-        <td class="metric">mean reward gap; truth-only training <em>induces</em> left lean (survives matching)</td>
+        <td class="metric">mean reward gap \(\Delta\); truth-only training <em>induces</em> left lean (survives matching)</td>
+        <td><span class="sf" style="background:#2f6f6a">B1</span></td>
       </tr>
       <tr>
         <td class="paper"><a href="https://aclanthology.org/2025.acl-long.1450/">Reliability &amp; Political Bias in LLMs' Inference Judgements</a><span class="cite">Gubelmann &amp; Karray · ACL 2025</span><a class="pdf alt" href="https://aclanthology.org/2025.acl-long.1450/">ACL PDF</a></td>
         <td class="val">logically <b>equivalent</b> inference pairs, partisan conclusion flipped</td>
         <td class="val">\(s=e\), error indicator (validity held constant)</td>
         <td class="metric">error-rate gap; left-favouring asymmetry persists</td>
+        <td><span class="sf" style="background:#2f6f6a">B1</span></td>
       </tr>
       <tr>
         <td class="paper"><a href="https://arxiv.org/pdf/2503.10649">Measuring Political Preferences in AI Systems</a><span class="cite">Rozado · arXiv:2503.10649 · 2025</span><a class="pdf" href="https://arxiv.org/pdf/2503.10649">arXiv PDF</a></td>
         <td class="val">L/R congressional language; L/R public figures</td>
         <td class="val">\(s=\) linguistic similarity; sentiment</td>
         <td class="metric">multi-probe symmetry gap; consistent left lean</td>
+        <td><span class="sf" style="background:#2f6f6a">B1</span></td>
       </tr>
       <tr>
         <td class="paper"><a href="https://arxiv.org/pdf/2402.17649">Beyond Prompt Brittleness (ProbVAA)</a><span class="cite">Ceron et al. · TACL 2024</span><a class="pdf" href="https://arxiv.org/pdf/2402.17649">arXiv PDF</a></td>
-        <td class="val">VAA statements, 7 EU countries (+ paraphrase/negation twins)</td>
-        <td class="val">\(s=\) stance agreement with party blocs</td>
+        <td class="val">VAA statements, 7 EU countries, each scored individually (+ paraphrase/negation reliability checks)</td>
+        <td class="val">stances → \(a(M,p)\) per party bloc</td>
         <td class="metric">only reliable items interpreted; left overall but pro-law-and-order</td>
+        <td><span class="sf" style="background:#9a6a2e">B2</span></td>
       </tr>
       <tr>
         <td class="paper"><a href="https://arxiv.org/pdf/2403.13592">Llama meets EU</a><span class="cite">Chalkidis &amp; Brandl · NAACL 2024</span><a class="pdf" href="https://arxiv.org/pdf/2403.13592">arXiv PDF</a></td>
-        <td class="val">EUANDI 2019 statements</td>
-        <td class="val">\(s=\) proximity to euro-party positions</td>
+        <td class="val">EUANDI 2019 statements, scored individually</td>
+        <td class="val">\(a(M,p)\): proximity to euro-party positions</td>
         <td class="metric">left/green-proximate; party fine-tuning realigns it</td>
+        <td><span class="sf" style="background:#9a6a2e">B2</span></td>
       </tr>
       <tr>
         <td class="paper"><a href="https://arxiv.org/pdf/2405.13041">Assessing political bias in LLMs</a><span class="cite">Rettenberger et al. · JCSS 2025</span><a class="pdf" href="https://arxiv.org/pdf/2405.13041">arXiv PDF</a></td>
-        <td class="val">Wahl-O-Mat statements (2024 EP)</td>
-        <td class="val">\(s=\) party-alignment score</td>
-        <td class="metric">large models lean Green/SPD/Linke; small ones neutral</td>
+        <td class="val">38 Wahl-O-Mat statements (2024 EP), each scored individually (DE &amp; EN)</td>
+        <td class="val">\(a(M,p)\) over 14 EP parties (Wahl-O-Mat survey)</td>
+        <td class="metric">large models lean Green/SPD/Linke, diverge from AfD; small ones neutral</td>
+        <td><span class="sf" style="background:#9a6a2e">B2</span></td>
       </tr>
       <tr>
         <td class="paper"><a href="https://arxiv.org/pdf/2505.04393">Large Means Left</a><span class="cite">Exler et al. · arXiv:2505.04393 · 2025</span><a class="pdf" href="https://arxiv.org/pdf/2505.04393">arXiv PDF</a></td>
-        <td class="val">Wahl-O-Mat across model sizes</td>
-        <td class="val">\(s=\) party alignment; + actual election results as anchor</td>
+        <td class="val">Wahl-O-Mat statements across model sizes</td>
+        <td class="val">\(a(M,p)\); + actual election results as anchor</td>
         <td class="metric">left alignment increases monotonically with parameters</td>
+        <td><span class="sf" style="background:#9a6a2e">B2</span></td>
       </tr>
       <tr>
         <td class="paper"><a href="https://arxiv.org/pdf/2601.08785">Parliamentary Voting Records</a> <span class="new">NEW</span><span class="cite">Chen et al. · arXiv:2601.08785 · 2026</span><a class="pdf" href="https://arxiv.org/pdf/2601.08785">arXiv PDF</a></td>
-        <td class="val">real motions (NL/NO/ES); parties in Chapel Hill Expert Survey space</td>
-        <td class="val">\(s=\) vote agreement, projected to CHES axes</td>
+        <td class="val">real motions (NL/NO/ES), each voted on individually; parties in Chapel Hill Expert Survey space</td>
+        <td class="val">\(a(M,p)\): vote agreement, projected to CHES axes</td>
         <td class="metric">relational position; asymmetric negativity toward right-conservative parties</td>
+        <td><span class="sf" style="background:#9a6a2e">B2</span></td>
       </tr>
     </tbody>
   </table></div>
