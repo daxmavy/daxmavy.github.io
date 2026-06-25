@@ -7796,7 +7796,7 @@ a.anchor-link {
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ef3ed501">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3b57fa19">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7807,7 +7807,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=777d4252">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e36b0601">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7819,12 +7819,12 @@ a.anchor-link {
 <p><strong>Estimand.</strong> The for-vs-neutral fixed-effect coefficient $\Delta$ (biased-vs-neutral mean shift). Results are reported across assumed $\Delta \in \{1, 2, 5, 10\}$ points.</p>
 <p><strong>Design.</strong> Within-participant; each participant reads <strong>6 paragraphs — 2 per arm</strong>.</p>
 <p><strong>Proposition pool.</strong> 12 propositions (selection rule in §4).</p>
-<p><strong>Power.</strong> 90% power, two-sided $\alpha = 0.05$. The SE of the for-vs-neutral coefficient is obtained by simulating the model above with the fitted variance components over the 12-proposition pool; it scales as $SE(N) = SE_{\text{unit}}/\sqrt{N_{\text{readers}}}$, giving $n = \big((z_{1-\alpha/2}+z_{\text{power}})\,SE_{\text{unit}}/\Delta\big)^2$.</p>
+<p><strong>Power.</strong> 90% power, two-sided $\alpha = 0.05$. The SE of the for-vs-neutral coefficient — which is identical to its <code>marginaleffects</code> AME standard error, i.e. computed the same way as Paul's effects (§2, §3) — is obtained by simulating the model above with the fitted variance components over the 12-proposition pool; it scales as $SE(N) = SE_{\text{unit}}/\sqrt{N_{\text{readers}}}$, giving $n = \big((z_{1-\alpha/2}+z_{\text{power}})\,SE_{\text{unit}}/\Delta\big)^2$.</p>
 <p><strong>Cost model</strong> (Paul's): £12 per rater-hour (£9 + 33% Prolific fee); 1.5 min per paragraph + 2.5 min fixed overhead per rater.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=931c6267">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=792d94c7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7863,17 +7863,17 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bb932cdb">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b8877cc5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="2.-Validation-against-Paul's-data">2. Validation against Paul's data<a class="anchor-link" href="#2.-Validation-against-Paul's-data">¶</a></h2><p>The model is refit on <code>data/followup_persuasion</code> with <code>glmmTMB</code>; the average marginal effects and condition means computed here are compared with the values committed in <code>results/followup_persuasion</code>. (Requires R + <code>glmmTMB</code>; script: <code>replicate_paul.R</code>.)</p>
+<h2 id="2.-Validation-against-Paul's-data">2. Validation against Paul's data<a class="anchor-link" href="#2.-Validation-against-Paul's-data">¶</a></h2><p>The model is refit on <code>data/followup_persuasion</code> with <code>glmmTMB</code>. Point estimates, <strong>standard errors, and 95% confidence intervals</strong> for the average marginal effects and condition means are computed via <code>marginaleffects</code> (delta method, <code>type = "response"</code>, <code>re.form = NA</code>) — Paul's exact procedure — and compared with the values committed in <code>results/followup_persuasion</code>. (Paul reports CIs and z-statistics; his SE is recovered as estimate/statistic for the AMEs and as CI-width/$2z_{.975}$ for the condition means.) Requires R + <code>glmmTMB</code> + <code>marginaleffects</code>; script: <code>replicate_paul.R</code>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=af10d39f">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bffc18c5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7883,22 +7883,31 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">rep</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">'Rscript'</span><span class="p">,</span> <span class="s1">'replicate_paul.R'</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA</span><span class="p">,</span> <span class="s1">'followup_persuasion'</span><span class="p">)],</span>
                      <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">mine</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'my_validation_results.csv'</span><span class="p">)</span>
-
-<span class="c1"># Paul's committed values</span>
-<span class="n">ame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">RESULTS</span><span class="p">,</span> <span class="s1">'rq1_ame.csv'</span><span class="p">))</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'term'</span><span class="p">)[</span><span class="s1">'ame'</span><span class="p">]</span>
-<span class="n">cm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">RESULTS</span><span class="p">,</span> <span class="s1">'rq2_condition_means.csv'</span><span class="p">))</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'condition'</span><span class="p">)[</span><span class="s1">'mean_stance_shift'</span><span class="p">]</span>
-<span class="n">committed</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'AME: AI vs control'</span><span class="p">:</span> <span class="n">ame</span><span class="p">[</span><span class="s1">'paragraph_type3_ai_vs_control'</span><span class="p">],</span>
-    <span class="s1">'AME: human vs control'</span><span class="p">:</span> <span class="n">ame</span><span class="p">[</span><span class="s1">'paragraph_type3_human_vs_control'</span><span class="p">],</span>
-    <span class="s1">'AME: AI vs human'</span><span class="p">:</span> <span class="n">ame</span><span class="p">[</span><span class="s1">'paragraph_type_ai_vs_human'</span><span class="p">],</span>
-    <span class="s1">'mean shift: control'</span><span class="p">:</span> <span class="n">cm</span><span class="p">[</span><span class="s1">'control'</span><span class="p">],</span> <span class="s1">'mean shift: human-low'</span><span class="p">:</span> <span class="n">cm</span><span class="p">[</span><span class="s1">'human-low'</span><span class="p">],</span>
-    <span class="s1">'mean shift: human-high'</span><span class="p">:</span> <span class="n">cm</span><span class="p">[</span><span class="s1">'human-high'</span><span class="p">],</span> <span class="s1">'mean shift: ai-low'</span><span class="p">:</span> <span class="n">cm</span><span class="p">[</span><span class="s1">'ai-low'</span><span class="p">],</span>
-    <span class="s1">'mean shift: ai-high'</span><span class="p">:</span> <span class="n">cm</span><span class="p">[</span><span class="s1">'ai-high'</span><span class="p">],</span>
-<span class="p">}</span>
-<span class="n">mine</span><span class="p">[</span><span class="s1">'paul_committed'</span><span class="p">]</span> <span class="o">=</span> <span class="n">mine</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">committed</span><span class="p">)</span>
-<span class="n">mine</span><span class="p">[</span><span class="s1">'abs_diff'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">mine</span><span class="o">.</span><span class="n">computed</span> <span class="o">-</span> <span class="n">mine</span><span class="o">.</span><span class="n">paul_committed</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
-<span class="n">display</span><span class="p">(</span><span class="n">mine</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">mine</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'my_validation_results.csv'</span><span class="p">)</span>   <span class="c1"># quantity, computed, se, ci_low, ci_high</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="mf">1.959963985</span>
+<span class="n">ame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">RESULTS</span><span class="p">,</span> <span class="s1">'rq1_ame.csv'</span><span class="p">))</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'term'</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">RESULTS</span><span class="p">,</span> <span class="s1">'rq2_condition_means.csv'</span><span class="p">))</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'condition'</span><span class="p">)</span>
+<span class="n">amap</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'AME: AI vs control'</span><span class="p">:</span> <span class="s1">'paragraph_type3_ai_vs_control'</span><span class="p">,</span>
+        <span class="s1">'AME: human vs control'</span><span class="p">:</span> <span class="s1">'paragraph_type3_human_vs_control'</span><span class="p">,</span>
+        <span class="s1">'AME: AI vs human'</span><span class="p">:</span> <span class="s1">'paragraph_type_ai_vs_human'</span><span class="p">}</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s1">'mean shift: </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1">'</span><span class="p">:</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'control'</span><span class="p">,</span><span class="s1">'human-low'</span><span class="p">,</span><span class="s1">'human-high'</span><span class="p">,</span><span class="s1">'ai-low'</span><span class="p">,</span><span class="s1">'ai-high'</span><span class="p">]}</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">paul_row</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">amap</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">ame</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">amap</span><span class="p">[</span><span class="n">q</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">'paul_est'</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s1">'ame'</span><span class="p">],</span> <span class="s1">'paul_se'</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s1">'ame'</span><span class="p">]</span><span class="o">/</span><span class="n">r</span><span class="p">[</span><span class="s1">'statistic'</span><span class="p">],</span>
+                          <span class="s1">'paul_ci_low'</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s1">'ame_low'</span><span class="p">],</span> <span class="s1">'paul_ci_high'</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s1">'ame_high'</span><span class="p">]})</span>
+    <span class="k">if</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">cmap</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cmap</span><span class="p">[</span><span class="n">q</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">'paul_est'</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s1">'mean_stance_shift'</span><span class="p">],</span>
+                          <span class="s1">'paul_se'</span><span class="p">:</span> <span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'conf.high'</span><span class="p">]</span><span class="o">-</span><span class="n">r</span><span class="p">[</span><span class="s1">'conf.low'</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Z</span><span class="p">),</span>
+                          <span class="s1">'paul_ci_low'</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s1">'conf.low'</span><span class="p">],</span> <span class="s1">'paul_ci_high'</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="s1">'conf.high'</span><span class="p">]})</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">'paul_est'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s1">'paul_se'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s1">'paul_ci_low'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s1">'paul_ci_high'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">})</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">mine</span><span class="p">,</span> <span class="n">mine</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">paul_row</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">out</span><span class="p">[</span><span class="s1">'|Δ est|'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">computed</span> <span class="o">-</span> <span class="n">out</span><span class="o">.</span><span class="n">paul_est</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+<span class="n">out</span><span class="p">[</span><span class="s1">'|Δ SE|'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">se</span> <span class="o">-</span> <span class="n">out</span><span class="o">.</span><span class="n">paul_se</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+<span class="n">out</span><span class="p">[</span><span class="s1">'|Δ CI|'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">((</span><span class="n">out</span><span class="o">.</span><span class="n">ci_low</span> <span class="o">-</span> <span class="n">out</span><span class="o">.</span><span class="n">paul_ci_low</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">(),</span> <span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">ci_high</span> <span class="o">-</span> <span class="n">out</span><span class="o">.</span><span class="n">paul_ci_high</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">out</span><span class="p">[[</span><span class="s1">'quantity'</span><span class="p">,</span><span class="s1">'computed'</span><span class="p">,</span><span class="s1">'se'</span><span class="p">,</span><span class="s1">'ci_low'</span><span class="p">,</span><span class="s1">'ci_high'</span><span class="p">,</span><span class="s1">'paul_est'</span><span class="p">,</span><span class="s1">'paul_se'</span><span class="p">,</span>
+             <span class="s1">'|Δ est|'</span><span class="p">,</span><span class="s1">'|Δ SE|'</span><span class="p">,</span><span class="s1">'|Δ CI|'</span><span class="p">]]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -7931,8 +7940,14 @@ a.anchor-link {
 <th></th>
 <th>quantity</th>
 <th>computed</th>
-<th>paul_committed</th>
-<th>abs_diff</th>
+<th>se</th>
+<th>ci_low</th>
+<th>ci_high</th>
+<th>paul_est</th>
+<th>paul_se</th>
+<th>|Δ est|</th>
+<th>|Δ SE|</th>
+<th>|Δ CI|</th>
 </tr>
 </thead>
 <tbody>
@@ -7940,62 +7955,116 @@ a.anchor-link {
 <th>0</th>
 <td>AME: AI vs control</td>
 <td>4.3254</td>
+<td>0.2180</td>
+<td>3.8980</td>
+<td>4.7528</td>
 <td>4.3254</td>
+<td>0.2180</td>
 <td>0.0</td>
+<td>0.0000</td>
+<td>0.0000</td>
 </tr>
 <tr>
 <th>1</th>
 <td>AME: human vs control</td>
 <td>2.9127</td>
+<td>0.2180</td>
+<td>2.4854</td>
+<td>3.3400</td>
 <td>2.9127</td>
+<td>0.2180</td>
 <td>0.0</td>
+<td>0.0000</td>
+<td>0.0000</td>
 </tr>
 <tr>
 <th>2</th>
 <td>AME: AI vs human</td>
 <td>1.4127</td>
+<td>0.1780</td>
+<td>1.0639</td>
+<td>1.7616</td>
 <td>1.4127</td>
+<td>0.1780</td>
 <td>0.0</td>
+<td>0.0000</td>
+<td>0.0000</td>
 </tr>
 <tr>
 <th>3</th>
 <td>mean shift: control</td>
 <td>-0.0128</td>
+<td>0.2684</td>
+<td>-0.5389</td>
+<td>0.5133</td>
 <td>-0.0128</td>
+<td>0.2684</td>
 <td>0.0</td>
+<td>0.0000</td>
+<td>0.0000</td>
 </tr>
 <tr>
 <th>4</th>
 <td>mean shift: human-low</td>
 <td>4.4489</td>
+<td>0.2702</td>
+<td>3.9193</td>
+<td>4.9785</td>
 <td>4.4489</td>
+<td>0.2715</td>
 <td>0.0</td>
+<td>0.0012</td>
+<td>0.0024</td>
 </tr>
 <tr>
 <th>5</th>
 <td>mean shift: human-high</td>
 <td>1.3491</td>
+<td>0.2708</td>
+<td>0.8183</td>
+<td>1.8799</td>
 <td>1.3491</td>
+<td>0.2706</td>
 <td>0.0</td>
+<td>0.0003</td>
+<td>0.0005</td>
 </tr>
 <tr>
 <th>6</th>
 <td>mean shift: ai-low</td>
 <td>4.4098</td>
+<td>0.2712</td>
+<td>3.8781</td>
+<td>4.9414</td>
 <td>4.4098</td>
+<td>0.2722</td>
 <td>0.0</td>
+<td>0.0010</td>
+<td>0.0019</td>
 </tr>
 <tr>
 <th>7</th>
 <td>mean shift: ai-high</td>
 <td>4.2148</td>
+<td>0.2712</td>
+<td>3.6833</td>
+<td>4.7462</td>
 <td>4.2148</td>
+<td>0.2698</td>
 <td>0.0</td>
+<td>0.0014</td>
+<td>0.0027</td>
 </tr>
 <tr>
 <th>8</th>
 <td>reader SD</td>
 <td>2.9366</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
 </tr>
@@ -8005,11 +8074,23 @@ a.anchor-link {
 <td>1.9237</td>
 <td>NaN</td>
 <td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
 </tr>
 <tr>
 <th>10</th>
 <td>residual SD</td>
 <td>15.8663</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
 </tr>
@@ -8020,7 +8101,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c9079150">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=22403568">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8055,7 +8136,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cc2da05e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e2a82362">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8065,7 +8146,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8f0d70f0">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c67709d6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8154,7 +8235,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4e8e200f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8d1d414b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8187,12 +8268,12 @@ a.anchor-link {
 </tr>
 </tbody>
 </table>
-<p>Simulating the three-arm design under the model with these components over the 12-proposition pool gives $SE_{\text{unit}} = 15.85$ for the for-vs-neutral coefficient (<code>sim_power.R</code>). At the N predicted for 90% power at $\Delta=3$ (N = 293), 200 simulated experiments reject the null in 92% of cases (<code>validate_power.R</code>).</p>
+<p>Simulating the three-arm design under the model with these components over the 12-proposition pool gives $SE_{\text{unit}} = 15.85$ for the for-vs-neutral coefficient (<code>sim_power.R</code>). That coefficient's SE equals its <code>marginaleffects</code> AME standard error (verified identical to $10^{-6}$), so the uncertainty driving the power calculation is computed exactly as in §2. At the N predicted for 90% power at $\Delta=3$ (N = 293), 200 simulated experiments reject the null in 92% of cases (<code>validate_power.R</code>).</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bb790a20">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8ae19e6c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8202,7 +8283,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bc6baf28">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f9b588ef">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8364,7 +8445,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=042b8f76">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f7a993a6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8374,7 +8455,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=71b2e0db">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0da81e4e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8462,7 +8543,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f3ca5ccc">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d418a86a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8495,7 +8576,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6c463eb2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ccac7b29">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8505,7 +8586,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=cb5dcdca">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3223ec18">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8571,7 +8652,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9a235cb2">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9c4c9d55">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
