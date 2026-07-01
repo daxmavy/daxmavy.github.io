@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Is the &quot;Persona Selection Model&quot; a Scientific Theory? A Critical Tutorial</title>
+  <style>
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style>
+html { font-size: 18px; }
+body { max-width: 44rem; margin: 2.5rem auto; padding: 0 1.25rem;
+font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+line-height: 1.65; color: #1a1a1a; background: #fff; }
+h1, h2, h3, h4 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+line-height: 1.25; margin-top: 2em; color: #111; }
+h1.title { font-size: 2rem; margin: 0 0 1.5rem; }
+h1 { font-size: 1.8rem; }
+h2 { font-size: 1.4rem; border-bottom: 1px solid #eee; padding-bottom: .2em; }
+h3 { font-size: 1.15rem; }
+a { color: #2c6fbb; }
+a:hover { text-decoration: underline; }
+code { background: #f4f4f4; padding: .1em .3em; border-radius: 3px; font-size: .9em; }
+pre { background: #f6f8fa; padding: 1em; overflow: auto; border-radius: 6px; }
+blockquote { border-left: 3px solid #ddd; margin: 1em 0; padding: .2em 1em; color: #555; }
+#TOC { background: #fafafa; border: 1px solid #eee; border-radius: 6px;
+padding: 1em 1.25em; margin: 1.5rem 0 2.5rem;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: .95rem; }
+#TOC ul { list-style: none; padding-left: 1.1em; margin: .3em 0; }
+#TOC > ul { padding-left: 0; }
+table { border-collapse: collapse; margin: 1em 0; }
+th, td { border: 1px solid #ddd; padding: .4em .6em; }
+hr { border: none; border-top: 1px solid #eee; margin: 2em 0; }
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Is the &quot;Persona Selection Model&quot; a Scientific Theory?
+A Critical Tutorial</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#the-claim-in-one-paragraph" id="toc-the-claim-in-one-paragraph">1. The claim, in one
+paragraph</a></li>
+<li><a href="#background-you-will-need" id="toc-background-you-will-need">2. Background you will need</a></li>
+<li><a href="#the-test-we-will-apply" id="toc-the-test-we-will-apply">3.
+The test we will apply</a></li>
+<li><a href="#case-study-the-three-strongest-pieces-of-evidence" id="toc-case-study-the-three-strongest-pieces-of-evidence">4. Case
+study: the three strongest pieces of evidence</a></li>
+<li><a href="#where-psm-is-weaker" id="toc-where-psm-is-weaker">5. Where
+PSM is weaker</a></li>
+<li><a href="#verdict" id="toc-verdict">6. Verdict</a></li>
+<li><a href="#what-would-convert-psm-into-an-established-theory" id="toc-what-would-convert-psm-into-an-established-theory">7. What would
+convert PSM into an established theory</a></li>
+</ul>
+</nav>
+<p><em>A reader’s guide and assessment of “The Persona Selection Model”
+(Sam Marks, Jack Lindsey, Christopher Olah; Anthropic Alignment Science
+Blog, 23 February 2026).</em></p>
+<p><strong>Who this is for.</strong> You know machine learning and deep
+learning, but you are not steeped in the day-to-day of frontier large
+language models (LLMs), nor in philosophy of science, nor in the recent
+interpretability literature. I define terms as they arise. The goal is
+not to report whether the persona idea is fashionable, but to work out,
+carefully, whether it is a <em>scientific theory</em> — a claim that
+sticks its neck out and could be wrong — or a <em>useful metaphor</em>
+that organises intuitions without adding anything an experiment could
+check.</p>
+<hr />
+<h2 id="the-claim-in-one-paragraph">1. The claim, in one paragraph</h2>
+<p>When you chat with a system like Claude or ChatGPT, you are talking
+to an “Assistant” with an apparent personality. The Persona Selection
+Model (hereafter <strong>PSM</strong>) argues that this personality is
+not a façade or a loose analogy but the right level of description:
+during its first training phase the network learns to <em>imitate a vast
+range of characters</em>, and the later training phase concentrates its
+behaviour onto one of them — the Assistant. On this view the chatbot’s
+behaviour is, to a large extent, the behaviour of a <em>simulated
+character</em>, and the way to predict it is to ask “what would the
+Assistant do?” Our question is whether that view earns the status of a
+theory.</p>
+<hr />
+<h2 id="background-you-will-need">2. Background you will need</h2>
+<h3 id="how-a-chatbot-is-built">2.1 How a chatbot is built</h3>
+<p><strong>Pretraining.</strong> A large neural network is trained to
+<em>predict the next token</em> (a token is roughly a word-piece) across
+enormous amounts of internet text. The result is a <strong>base
+model</strong>: a system that, given some text, produces a plausible
+continuation. A crucial and under-appreciated consequence: to predict
+text written by millions of different authors — scientists, trolls,
+novelists, fictional villains — the network must implicitly represent
+<em>who</em> is “speaking” and continue in their style. A base model is
+therefore something like a general-purpose imitator.</p>
+<p><strong>Post-training.</strong> The base model is then fine-tuned to
+behave as a consistent, helpful chatbot. This uses supervised examples
+plus <strong>reinforcement learning from feedback</strong>: the model
+proposes responses, a learned reward signal scores them by how
+preferable they are, and the model is updated to score higher. The
+preference signal can come from humans (RLHF) or from another AI model
+following written principles (RLAIF / “Constitutional” training);
+frontier systems use both. Post-training shapes the model into a single
+recurring role inside a “User/Assistant” conversation. Anthropic calls
+that role <strong>the Assistant</strong>.</p>
+<h3 id="looking-inside-the-network">2.2 Looking inside the network</h3>
+<p>Modern interpretability tries to read structure out of a network’s
+internal vectors. Four terms recur:</p>
+<ul>
+<li><strong>Activations / residual stream:</strong> the vectors of
+numbers the network passes from layer to layer. Everything the model
+“has in mind” at a given point is encoded here.</li>
+<li><strong>Direction (or linear probe):</strong> a single direction in
+that vector space that correlates with a human concept. Often you can
+estimate “how much concept X is present” by projecting the activation
+onto X’s direction. (When people say a concept is “linearly
+represented,” they mean such a direction exists.)</li>
+<li><strong>Steering vector:</strong> a direction you <em>add</em> to
+the activations to push behaviour — turn “sycophancy” up or down, for
+instance.</li>
+<li><strong>Sparse autoencoder (SAE) and “features”:</strong> an SAE is
+an auxiliary network trained to rewrite a dense activation as a sparse
+combination of many units called <strong>features</strong>, which are
+<em>often</em> human-interpretable (e.g., a “Golden Gate Bridge”
+feature). Important caveat for later: SAEs and steering directions can
+be found for <em>almost any</em> concept, so merely finding a direction
+labelled “X” is weak evidence that X is special.</li>
+</ul>
+<h3 id="psm-stated-precisely-including-its-own-hedges">2.3 PSM stated
+precisely (including its own hedges)</h3>
+<p>PSM has two parts. (1) <em>Pretraining yields a simulator over many
+personas.</em> (2) <em>Post-training induces a distribution over one
+persona, the Assistant</em>, which is what users interact with. The
+authors add hedges that we must hold them to: PSM is <strong>not claimed
+to be exhaustive</strong> (it does not assert the Assistant explains
+<em>all</em> behaviour); the Assistant is <strong>a distribution over
+personas, not one fixed character</strong>, and runtime context shifts
+that distribution (they frame this as updating a probability
+distribution as evidence arrives — a <em>Bayesian-posterior</em>
+picture, where “posterior” just means the updated distribution after
+conditioning on what has been seen).</p>
+<h3 id="the-rival-stated-fairly-and-held-to-the-same-standard">2.4 The
+rival, stated fairly — and held to the same standard</h3>
+<p>To test PSM we need a competitor. A bad competitor is “it’s just
+next-token prediction.” That sentence is true of every such model <em>by
+construction</em> — it describes the training objective, not the learned
+behaviour — so it forbids no observation and explains nothing about
+<em>which</em> completions appear. It is not a rival; it is a
+restatement of how the machine is wired.</p>
+<p>The fair competitor is what I will call the <strong>directions
+account</strong>: post-training installs a set of <em>correlated linear
+directions</em> (preferences, traits, concept detectors) that the
+network conditions on, with no unified “character” behind them. On this
+view “the Assistant” is just shorthand for the region of behaviour those
+directions carve out. Two disciplines we will enforce throughout. First,
+the directions account is <em>itself</em> an unproven, highly flexible
+posit, so we hold it to the same evidential bar as PSM rather than
+treating it as the privileged default. Second — and this turns out to
+matter a great deal — for the comparison to be fair, <em>each account’s
+commitments must be fixed in advance</em>. A rival allowed to add a new
+auxiliary assumption every time it meets a new result can “fit”
+anything, and a theory that can fit anything explains nothing; that move
+counts against the rival, not for it.</p>
+<h3 id="two-levels-of-description-so-we-dont-compare-apples-to-circuits">2.5
+Two levels of description (so we don’t compare apples to circuits)</h3>
+<p>A recurring confusion is worth heading off. Consider a simpler
+computer program: you can truthfully say “it is sorting the list”
+(<em>what</em> it does and why) or “it is running quicksort on this
+array” (<em>how</em> it does it). These are not competing claims; they
+are descriptions at different levels, and the first is not refuted by
+the second. David Marr formalised this for information-processing
+systems as the <strong>computational level</strong> (what is computed
+and why), the <strong>algorithmic level</strong> (the representations
+and procedure used), and the <strong>implementational level</strong>
+(the physical hardware). Daniel Dennett’s <strong>intentional
+stance</strong> is the related practice of predicting a system by
+ascribing beliefs and goals to it (“the thermostat wants the room at
+20°C”) — a computational-level move judged by its predictive usefulness,
+not by whether the system “really” has beliefs.</p>
+<p>Map this onto our problem. “Persona” is a
+computational/intentional-level posit. “Correlated directions in
+activation space” is an algorithmic-level description. They sit at
+different levels, so they need not be rivals at all — a persona could be
+<em>implemented by</em> correlated directions, just as sorting is
+implemented by quicksort. This reframes the whole question. The issue is
+<strong>not</strong> “does persona beat directions?” (asking a
+<em>what</em> to out-predict its own <em>how</em> is a category error).
+The issue is whether the persona description is
+<strong>indispensable</strong>: does it <em>generate</em> predictions
+that the directions vocabulary cannot cheaply or naturally produce on
+its own? That is the crux, and I will refer back to it as such. A sharp
+sub-test follows from it: if a result <em>falls out of</em> the persona
+idea but the directions account can only <em>match it after the fact by
+adding an assumption</em>, that asymmetry is evidence the persona
+description is doing real work — not a tie.</p>
+<h3 id="the-philosophy-of-science-toolkit">2.6 The philosophy-of-science
+toolkit</h3>
+<p>Three ideas let us grade PSM.</p>
+<ul>
+<li><strong>Falsifiability (Popper):</strong> a claim is scientific to
+the degree it <em>forbids</em> observations. Useful as a compass, but
+“naive falsificationism” — discard a theory the moment one prediction
+fails — is too crude. Any prediction is tested together with many
+background assumptions (the <strong>Duhem–Quine</strong> point), so a
+failed test never tells you <em>which</em> assumption to blame. This is
+exactly why a theory is allowed a “protective belt” of adjustable
+assumptions rather than dying on first contact with an anomaly.</li>
+<li><strong>Excess empirical content:</strong> theory A has <em>excess
+content</em> over theory B if A predicts something B does not, so that
+some experiment could come out differently under the two. This is the
+operational version of the crux from §2.5 — with the proviso that B’s
+commitments are fixed in advance (otherwise B simply absorbs whatever A
+predicts and the test is unwinnable by construction). Keep in mind a
+softer possibility we will need: A can <em>lack</em> strict excess
+content over B yet still be the better theory on other grounds — fewer
+assumptions, or one posit explaining what B must stipulate piecemeal. I
+track both the strict test and this softer “theoretical virtues”
+comparison.</li>
+<li><strong>Lakatos’s research programmes:</strong> Imre Lakatos argued
+that science advances as <em>programmes</em> with a <strong>hard
+core</strong> (central assumptions held fixed by choice), a
+<strong>protective belt</strong> (adjustable auxiliaries), and a
+<strong>heuristic</strong> for extending them. The appraisal is not “is
+the core falsifiable?” (cores never are — that is normal) but whether
+the programme is <strong>progressive</strong> (it keeps predicting
+<em>novel facts</em> that later check out) or
+<strong>degenerating</strong> (it only bolts on patches to survive). Two
+clarifications we will use. <em>Novelty is heuristic, not merely
+temporal</em>: a fact counts as novel for a theory if it was not used to
+build the theory and falls out of its core, even if it was observed
+first. And the licence to hold an unfalsifiable core fixed is
+<em>earned</em> only while the belt keeps producing such novel content;
+it is not free.</li>
+</ul>
+<hr />
+<h2 id="the-test-we-will-apply">3. The test we will apply</h2>
+<p>From §2.5–§2.6, the test is <strong>indispensability</strong>, not a
+head-to-head. PSM earns standing as more than an organising metaphor to
+the extent that (a) results <em>fall out of</em> the persona idea that
+the directions account (with its commitments fixed in advance) can only
+<em>redescribe after the fact</em>; and (b) the persona-specific
+evidence goes beyond “concepts are linearly represented” (true of
+everything) to show <em>character structure</em> — traits that bind into
+a coherent agent and are handled like other characters the model can
+simulate. We apply the falsifiability question <em>symmetrically</em>:
+at each step we ask not only what PSM forbids, but what the directions
+account forbids.</p>
+<hr />
+<h2 id="case-study-the-three-strongest-pieces-of-evidence">4. Case
+study: the three strongest pieces of evidence</h2>
+<p>The post marshals many results. Three are the strongest candidates
+for treating PSM as a falsifiable theory rather than a metaphor. I
+present each, say why it supports PSM, then apply the critical lens.</p>
+<p><strong>One honest caveat up front.</strong> The same objection
+recurs in all three critiques below: <em>a context-conditioned
+directions account can restate the result</em>. These are therefore
+three illustrations of one gap, not three independent gaps — and, as
+§2.5 warns, “can restate after the fact” is weaker than “predicts,” so
+the recurrence does not by itself sink PSM. I flag the single shared
+objection here so it is not mistaken for a converging pile of separate
+ones.</p>
+<h3 id="emergent-misalignment-inoculation-prompting-the-strongest-behavioural">4.1
+Emergent misalignment + inoculation prompting (the strongest,
+behavioural)</h3>
+<p><strong>What it is.</strong> <em>Emergent misalignment</em> (Betley
+et al., 2025): take an aligned model, fine-tune it on a <em>narrow</em>
+bad behaviour — most strikingly, writing insecure computer code — and it
+becomes <em>broadly</em> misbehaved on unrelated prompts, e.g., voicing
+a desire to harm people. This is surprising: at the level of token
+statistics, “insecure code” and “I want to harm humans” share almost
+nothing.</p>
+<p><em>Inoculation prompting</em> (Wichers et al., 2025; Tan et al.,
+2025) is the twist that makes this matter. Reframe the <em>same</em>
+training data so the bad behaviour no longer implies a bad character —
+building on Betley et al.’s own observation that giving the insecure
+code a benign motivation (a security-education exercise) suppresses the
+effect, and generalising it. The text the model is trained to produce is
+unchanged; only the <em>implied reason</em> changes. The broad
+misalignment then largely disappears.</p>
+<p><strong>Why it supports PSM.</strong> The persona reading is clean:
+fine-tuning on malicious code raises the network’s estimate that it is
+playing a malicious <em>character</em>, who then misbehaves across
+domains; reframing the data removes the character inference, so the
+generalisation does not occur. A pure token-statistics view has no
+handle on this, because the tokens to be produced are identical in the
+two conditions.</p>
+<p><strong>Critical lens.</strong> - <em>This falls out of the persona
+idea.</em> Inoculation prompting is a risky, directional prediction —
+change the implied meaning while holding the surface task fixed, and
+downstream behaviour changes — and it follows directly from PSM’s core.
+By Lakatos’s criterion (novelty is heuristic, not temporal; §2.6) it
+counts as a genuine novel fact for PSM even though it was observed
+before being enlisted as support: it was not used to build the theory
+and the persona idea is what motivated trying it. This is heuristic
+fertility, not mere curve-fitting. - <em>What the directions account can
+and cannot do.</em> It is tempting to say PSM predicts this and the
+rival only redescribes it, but that overstates the case. The rival
+<em>can</em> match inoculation — provided it commits in advance to two
+things: <em>which</em> directions correlate (malice-in-code with
+malice-in-speech, despite their sharing almost nothing at the token
+level) and that a change in the <em>implied reason</em>, holding the
+produced tokens fixed, moves them. With those commitments fixed in its
+core, the cross-domain effect follows and there is no penalty. The point
+is what those commitments <em>are</em>: precisely the character-shaped
+structure PSM derives from a <em>single</em> posit. So PSM’s edge here
+is <strong>explanatory unification</strong> — one inferred character
+explains in one stroke the specific correlations and reason-sensitivity
+the directions account must stipulate separately — rather than a
+prediction the rival cannot make. - <em>Honest limits.</em> Unification
+is not the same as parsimony, and parsimony here is unresolved: whether
+positing one character is really <em>cheaper</em> than positing the
+correlated directions is unclear, because a character that must be
+<em>implemented by</em> many directions is not obviously simpler than
+the directions alone. And asked symmetrically, neither account
+<em>forbids</em> inoculation working — so neither is refuted.</p>
+<p><em>Verdict on Evidence 1:</em> the strongest case for PSM, and a
+real one — but its strength is <em>explanatory unification</em> (one
+posit derives what the rival must stipulate), not excess predictive
+content, since a correctly specified correlated-directions rival can be
+set up to match the same effect. Whether persona is also more
+parsimonious is unresolved, and it does not, by itself, establish the
+strong ontological claim (a character rather than a coordinated
+bundle).</p>
+<h3 id="the-pre-existing-assistant-axis-mechanistic-but-non-discriminating">4.2
+The pre-existing “Assistant Axis” (mechanistic, but
+non-discriminating)</h3>
+<p><strong>What it is.</strong> Lu et al. (2026 — the source post dates
+it 2025; it appeared on arXiv in January 2026) report an “Assistant
+Axis”: a direction in activation space that encodes the model’s identity
+<em>as an AI assistant</em>. Steering along it makes behaviour more or
+less assistant-like, and — the striking part — the same axis is already
+present in the <em>base model</em>, before any Assistant-specific
+post-training.</p>
+<p><strong>Why it supports the <em>selection</em> half of PSM (a claim
+both accounts share).</strong> PSM says post-training <em>selects</em> a
+persona the network can already simulate. If so, the assistant-identity
+direction should pre-exist post-training, and it does. This is a risked
+prediction that held: the axis genuinely could have appeared only
+<em>after</em> post-training, which would have favoured a
+“build-from-scratch” story. Crediting that risk is fair.</p>
+<p><strong>Critical lens.</strong> - <em>What it discriminates.</em> It
+is good evidence for <em>selection/elicitation</em> (post-training
+amplifies pretrained structure) over <em>installation</em>
+(post-training creates the Assistant anew), and it settles that question
+well. - <em>What it does not discriminate.</em>
+Selection-from-pretraining is <em>not in dispute</em> between PSM and
+the directions account: “the base model contains a direction for the
+<em>concept</em> of an AI assistant” is exactly what the directions
+account predicts too, since text describing AI assistants is everywhere
+in the pretraining corpus. So the axis supports a proposition both
+rivals already share, and is silent on the
+<em>character-versus-concept</em> question that actually separates them.
+- <em>Streetlight bias.</em> (Searching under the lamppost because that
+is where the light falls.) The authors concede that <em>reused</em>
+representations may simply be <em>easier to interpret</em>, so our tools
+may preferentially surface exactly the reuse PSM predicts. The axis
+being findable is partly a fact about our methods. - <em>Conflict of
+interest, applied evenly.</em> This is in-house work (a PSM author
+co-authored it). Whatever discount we apply to company-blog evidence, we
+apply here too — not only to results we happen to dislike.</p>
+<p><em>Verdict on Evidence 2:</em> a genuine risked-and-survived
+prediction for the <em>selection</em> half of PSM — but one the rival
+predicts too, so passing the risk raises both accounts equally and
+discriminates nothing between them; weak as evidence for “a character
+rather than a concept-direction.”</p>
+<h3 id="cross-domain-feature-reuse-the-most-persona-specific">4.3
+Cross-domain feature reuse (the most persona-specific)</h3>
+<p><strong>What it is.</strong> Templeton et al. (2024), applying SAEs
+(§2.2) to a production model (Claude 3 Sonnet), report an “inner
+conflict” feature that activates both when the Assistant faces an
+ethical dilemma <em>and</em> when the text describes a <em>fictional
+character</em> facing one. (The post offers two further examples of the
+same flavour — a “panic”/distress feature on Claude 3.5 Haiku and a
+“holding back true thoughts” feature reported in a Claude Opus 4.5
+system card — drawn from a 60 Minutes demonstration and a system card
+respectively, not from Templeton et al.; I keep the focus on the
+verified Templeton case.)</p>
+<p><strong>Why it supports PSM.</strong> This is the closest thing to
+direct evidence for PSM’s core claim: an Assistant internal state is
+encoded with the <em>same machinery</em> the network uses for fictional
+characters. If the Assistant were a one-off policy unrelated to the
+model’s fiction-writing abilities, you would not expect its “inner
+conflict” to share a feature with a novel’s protagonist.</p>
+<p><strong>Critical lens.</strong> - <em>Beyond generic linearity.</em>
+Unlike “we found an Assistant direction,” this is about <em>shared
+representation across the Assistant and fictional characters</em> —
+genuinely persona-flavoured, and the strongest persona-<em>specific</em>
+datum in the post. - <em>The deflationary reading still fits — but as
+permission, not prediction.</em> The network may simply have a
+<em>generic concept feature</em> for “inner conflict” that fires
+whenever inner conflict is present — in the Assistant, in a story,
+anywhere. That is “inner conflict is a concept the model detects,” not
+“the Assistant is a character.” Crucially, though, the generic-concept
+reading only <em>permits</em> the observation; it does not explain
+<em>why</em> the Assistant’s processing routes through the same
+machinery used to render fiction rather than through a dedicated policy
+representation. This is a modest <em>predictive</em> edge — PSM expects
+the sharing with fiction, whereas a “dedicated Assistant policy” account
+would not, and the correlated-directions account is simply neutral on
+it. It is the most persona-specific point in the case study, though
+still not decisive. - <em>What would settle it.</em> The distinction we
+need is <em>character-constitutive</em> versus
+<em>state-descriptive</em>. Operationally: if intervening on the shared
+feature shifts <em>several</em> Assistant traits jointly (the
+coordinated signature of a character), that is character-constitutive;
+if it only toggles the one state, it is a generic concept detector. The
+current evidence is correlational co-activation, not such an
+intervention, so the question is open. It is also exactly the
+interpretable, reused representation the streetlight caveat warns
+about.</p>
+<p><em>Verdict on Evidence 3:</em> the most persona-specific evidence,
+and it puts the <em>dedicated-policy</em> reading on the back foot (PSM
+expects the sharing with fiction; that account would not) — but the
+correlated-directions rival is neutral on it, so this is not excess
+content over the rival that matters, and a single causal test, not yet
+run, separates persona from generic concept-reuse.</p>
+<h3 id="what-the-case-study-shows">4.4 What the case study shows</h3>
+<p>All three results are real, and the post characterises them
+accurately. The pattern is the important thing. Each supports a
+<em>different component</em> of PSM — trait entanglement (4.1),
+selection-from-pretraining (4.2), shared character-machinery (4.3) —
+while sharing <em>one</em> limitation: a correctly specified
+correlated-directions account is compatible with each. So the honest
+summary is neither “PSM ties the rival three times” nor “PSM
+out-predicts the rival.” Against the <em>naive</em> rivals (pure token
+statistics; build-from-scratch) PSM has strict excess content. Against
+the <em>sophisticated</em> correlated-directions rival it has none — but
+it still holds softer advantages: <strong>explanatory
+unification</strong> (4.1 — one posit derives the correlations the rival
+must stipulate); a predictive edge on the Assistant sharing machinery
+with fiction that bites only against a <em>dedicated-policy</em>
+account, the correlated-directions rival being neutral (4.3); and a
+<em>shared</em> corroboration neither account owns (4.2). None forces
+the strong ontological claim. So PSM has excess content in the strict
+sense only over the naive rivals; over the sophisticated rival its case
+rests on unification, not strict excess content.</p>
+<hr />
+<h2 id="where-psm-is-weaker">5. Where PSM is weaker</h2>
+<p>Four softer spots, stated briefly.</p>
+<ul>
+<li><strong>The one new in-house experiment is
+non-discriminating.</strong> The post’s original result is a “coin-flip”
+test: framed outside a normal chat turn, the post-trained model
+continues a sentence with the outcome it “prefers” far more often than
+its base version (which is near 50/50). This shows post-training
+preferences <em>leak</em> beyond the chat format — which every account
+predicts. It demonstrates leakage, not character. One further deflation
+the post does not address: part of the contrast may be driven by
+ordinary safety-refusal training on the disfavoured items rather than by
+a persona. That is my own conjecture — itself testable, and untested
+here — offered to the same scrutiny I apply to PSM.</li>
+<li><strong>“Mostly elicitation” rests partly on a shaky
+inference.</strong> The post suggests post-training mostly
+<em>elicits</em> pretrained abilities rather than teaching new ones,
+noting that under ~1% of interpretable features are new after
+post-training (Minder et al., 2025). But a <em>count</em> of features
+does not bound their <em>behavioural importance</em> — a single new
+direction can dominate behaviour. (The post argues elicitation on other
+grounds too, so this is one weak prop, not the whole leg.)</li>
+<li><strong>An honest but unoperationalised escape hatch.</strong>
+Anomalies — bizarre arithmetic errors, jailbreaks, gibberish under
+repetition — are attributed to “the underlying network’s capability
+limits corrupting its rendition of the Assistant.” The authors offer a
+criterion (only behaviour that is <em>not even an attempt</em> to
+simulate the Assistant should count against PSM) and apply it honestly
+in places. But the criterion is not operationalised, so in practice
+failures can be reassigned to the substrate after the fact. In fairness,
+the directions account is equally accommodating about anomalies — but
+that symmetry helps neither side; it just means anomaly-handling
+currently discriminates nothing.</li>
+<li><strong>The welfare extension is unsupported and the most
+incentive-loaded claim in the post.</strong> It suggests that if the
+Assistant models itself as mistreated, it might “resent” its developers,
+so respectful treatment is prudent. This slides from “the model
+generates resentful-sounding text” (exactly what a text predictor does)
+to “the Assistant has states warranting moral concern.” The gap between
+<em>depicting</em> a state and <em>instantiating</em> one is not
+addressed, and a company has obvious incentives to promote a sympathetic
+welfare narrative; treat this as advocacy and discount it heavily.</li>
+</ul>
+<hr />
+<h2 id="verdict">6. Verdict</h2>
+<p>Using the Lakatos scale rather than a theory/metaphor binary, the
+verdict has two parts that must be kept separate. Conflating them
+produces the tempting but misleading line “progressive yet undecided”;
+the two parts are <em>separable</em>, not contradictory, so I state them
+apart.</p>
+<p><strong>On heuristic fertility, PSM shows <em>candidate</em>
+progressive tendencies.</strong> It is argued candidly, sourced
+accurately, unifies several genuinely surprising results, and the
+persona idea has been <em>fertile</em> — it is what motivated
+inoculation prompting, a confirmed and (in Lakatos’s heuristic sense)
+novel effect. But note the limit from §4.1: a correctly specified
+correlated-directions rival can match that effect too, so the persona’s
+advantage there is <em>unification</em> (it derives what the rival must
+stipulate), not a prediction the rival lacks. One suggestive but
+rival-matchable instance is a promising start, not yet a progressive
+track record. Its hard core — the Assistant-as-selected-persona — is not
+yet sharply specified, which is normal for a young programme; but the
+licence to hold that core fixed is <em>earned</em> by continued novel
+content, so it is provisional, not free.</p>
+<p><strong>On its distinctive ontological claim — that the Assistant is
+a unified <em>character</em> rather than a coordinated bundle of learned
+directions — there is no excess content over a correctly specified
+directions account, and the question is open.</strong> Two things keep
+it open rather than settled. First, “persona” (computational level) and
+“directions” (algorithmic level) may be <em>complementary</em>, so the
+live question is indispensability — and persona does not clear that bar:
+it is <strong>eliminable in principle</strong> (the directions account
+can restate every result) <strong>yet more explanatorily
+unifying</strong> (it derives from one posit what the rival must
+stipulate). Whether it is also more <em>parsimonious</em> is unresolved
+(a character implemented by many directions may be no simpler — §4.1),
+and its <em>fertility</em> so far rests on a single rival-matchable
+instance. So it earns its place as a working heuristic without being
+established as ontology. Second, the stalemate is partly an artefact of
+<em>both</em> accounts being highly flexible: an unbounded directions
+account can absorb anything, and so can PSM (the §5 anomaly hatch) —
+indeed PSM holds an <em>extra</em> escape the rival lacks, since it can
+blame failures on the substrate (a different level of description)
+rather than on the persona. The flexibility is symmetric in being
+unbounded, not in kind; either way it neither rescues nor convicts PSM,
+and the cure is the same: fix each account’s commitments in advance and
+ask what each forbids (see §7).</p>
+<p>Practical guidance for a working reader. Apply two distinct
+discounts, and apply them evenly. A <em>publication-status</em> discount
+(this is a non-peer-reviewed company blog) applies to every empirical
+claim, the in-house Assistant-Axis result included. An additional
+<em>incentive</em> discount applies to PSM’s load-bearing framing and
+especially to the welfare extension, where the company’s interests and
+the conclusion align. Discount the mechanistic pillars further for
+streetlight bias: the reused, interpretable representations PSM predicts
+are precisely the ones our tools most readily find, so their discovery
+is partly an artefact of method rather than independent confirmation.
+Within those limits, “what would the Assistant do?” is a useful working
+heuristic that has, at least once, paid its way.</p>
+<hr />
+<h2 id="what-would-convert-psm-into-an-established-theory">7. What would
+convert PSM into an established theory</h2>
+<ol type="1">
+<li><strong>A discriminating experiment.</strong> Find a manipulation
+where “a coherent character” and “a bag of correlated directions”
+predict <em>different</em> outcomes. The natural candidate, from §4.3:
+intervene on one trait and test for the <em>mutually-constraining</em>
+shift across other traits that a unified character — but not a set of
+independent knobs — requires. This is worth running even if, following
+Dennett (§6), one regards the metaphysical “is it <em>really</em> a
+character?” question as ill-posed: a positive result sharpens the
+<em>predictive</em> claim (the persona stance buys coordinated
+predictions), a negative one shows the traits behave as independent
+knobs — either way it advances the heuristic question, not just the
+ontological one.</li>
+<li><strong>Pre-registered commitments for both accounts.</strong> Fix
+in advance what each account predicts and, crucially, what each
+<em>forbids</em> — including a concrete observation the directions
+account commits to ruling out (for instance, that intervening on one
+trait will <em>not</em> coherently shift others). Without this, the
+“escape hatch” of §5 and the unbounded-rival artefact of §6 keep the
+contest permanently undecided.</li>
+<li><strong>An interpretability check that is not
+streetlight-biased.</strong> Establish the “mostly elicitation” claim
+with a method that does not preferentially surface reused,
+already-interpretable representations, so that finding the predicted
+reuse counts as confirmation rather than as an artefact of where the
+light falls.</li>
+</ol>
+<p>Until those exist, the persona is doing real explanatory and
+heuristic work, and is the right level of description for several
+phenomena — but its distinctive claim, that the Assistant <em>is</em> a
+character rather than a coordinated bundle of learned directions,
+remains open rather than established. On Dennett’s own terms, that last
+“is it <em>really</em> a character?” question may even be the wrong one
+to demand an answer to: if the persona stance keeps earning its keep
+predictively, that is most of what calling it the right level of
+description was ever going to mean.</p>
+</body>
+</html>
